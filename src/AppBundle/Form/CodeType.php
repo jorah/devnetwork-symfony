@@ -26,8 +26,6 @@ class CodeType extends AbstractType
                     'class' => 'AppBundle:Language',
                     'choice_label' => 'name'
                 ])
-                ->add('user')
-                ->add('tags')
         ;
     }
 
