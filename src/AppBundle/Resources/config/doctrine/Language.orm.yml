@@ -1,9 +1,10 @@
-AppBundle\Entity\Skill:
+AppBundle\Entity\Language:
     type: entity
-    table: skill
-    repositoryClass: AppBundle\Repository\SkillRepository
+    table: programming_languages
+    repositoryClass: AppBundle\Repository\LanguageRepository
     lifecycleCallbacks: {  }
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
         name:   { type: string,     length: 65 }
+        count:  { type: integer,    nullable: true }

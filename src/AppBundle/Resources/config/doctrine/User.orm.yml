@@ -13,7 +13,7 @@ AppBundle\Entity\User:
         job:        { type: json_array,                nullable: true }
         bio:        { type: string,     length: 1000,  nullable: true }
         createdAt:  { type: datetime }
-        updatedAt:  { type: datetime }
+        updatedAt:  { type: datetime,                  nullable: true }
         theme:      { type: string,     length: 65,    nullable: true }
         img:        { type: string,     length: 10,    nullable: true }
         status:     { type: boolean }
@@ -30,6 +30,34 @@ AppBundle\Entity\User:
                         onDelete: CASCADE
                 inverseJoinColumns:
                     skill_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: RESTRICT
+        favCode:
+            targetEntity: AppBundle\Entity\Code
+            joinTable:
+                name: fav_codes
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    code_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: RESTRICT
+        favPost:
+            targetEntity: AppBundle\Entity\Post
+            joinTable:
+                name: fav_posts
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    post_id:
                         referencedColumnName: id
                         nullable: false
                         onDelete: RESTRICT

@@ -1,0 +1,12 @@
+AppBundle\Entity\Tag:
+    type: entity
+    table: tag
+    repositoryClass: AppBundle\Repository\TagRepository
+    lifecycleCallbacks: {  }
+    id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
+    
+    fields:
+        name:       { type: string,     length: 65 }
+        createdAt:  { type: datetime }
+        count:      { type: integer,    nullable: true }
+        

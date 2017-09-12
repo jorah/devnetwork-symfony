@@ -1,0 +1,23 @@
+AppBundle\Entity\CommentCode:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\CommentCodeRepository
+    lifecycleCallbacks: {  }
+    id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
+    
+    fields:
+        content:        { type: string,     length: 600  }
+        createdAt:      { type: datetime }
+        updatedAt:      { type: datetime,   nullable: true }
+        
+    manyToOne:
+        user:
+            targetEntity: AppBundle\Entity\User 
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        code:
+            targetEntity: AppBundle\Entity\Code
+            joinColumn:
+                name: post_id
+                referencedColumnName: id

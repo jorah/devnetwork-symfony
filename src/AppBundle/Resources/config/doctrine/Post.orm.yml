@@ -1,0 +1,35 @@
+AppBundle\Entity\Post:
+    type: entity
+    table: post
+    repositoryClass: AppBundle\Repository\PostRepository
+    lifecycleCallbacks: {  }
+    id: {id: { type: integer, id: true, generator: { strategy: AUTO }}}
+    
+    fields:
+        title:          { type: string,     length: 65 }
+        content:        { type: string,     length: 1200  }
+        createdAt:      { type: datetime }
+        updatedAt:      { type: datetime,   nullable: true }
+    
+    manyToOne:
+        user:
+            targetEntity: AppBundle\Entity\User 
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+    
+    manyToMany:
+        tags:
+            targetEntity: AppBundle\Entity\Tag
+            joinTable:
+                name: posts_codes
+                joinColumns:
+                    post_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    tag_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: CASCADE

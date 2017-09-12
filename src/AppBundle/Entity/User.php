@@ -320,4 +320,82 @@ class User extends BaseUser
     {
         return $this->skills;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $favCode;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $favPost;
+
+
+    /**
+     * Add favCode
+     *
+     * @param \AppBundle\Entity\Code $favCode
+     *
+     * @return User
+     */
+    public function addFavCode(\AppBundle\Entity\Code $favCode)
+    {
+        $this->favCode[] = $favCode;
+
+        return $this;
+    }
+
+    /**
+     * Remove favCode
+     *
+     * @param \AppBundle\Entity\Code $favCode
+     */
+    public function removeFavCode(\AppBundle\Entity\Code $favCode)
+    {
+        $this->favCode->removeElement($favCode);
+    }
+
+    /**
+     * Get favCode
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFavCode()
+    {
+        return $this->favCode;
+    }
+
+    /**
+     * Add favPost
+     *
+     * @param \AppBundle\Entity\Post $favPost
+     *
+     * @return User
+     */
+    public function addFavPost(\AppBundle\Entity\Post $favPost)
+    {
+        $this->favPost[] = $favPost;
+
+        return $this;
+    }
+
+    /**
+     * Remove favPost
+     *
+     * @param \AppBundle\Entity\Post $favPost
+     */
+    public function removeFavPost(\AppBundle\Entity\Post $favPost)
+    {
+        $this->favPost->removeElement($favPost);
+    }
+
+    /**
+     * Get favPost
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFavPost()
+    {
+        return $this->favPost;
+    }
 }
