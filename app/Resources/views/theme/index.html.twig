@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Themes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for theme in themes %}
+            <tr>
+                <td><a href="{{ path('theme_show', { 'id': theme.id }) }}">{{ theme.id }}</a></td>
+                <td>{{ theme.name }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('theme_show', { 'id': theme.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('theme_edit', { 'id': theme.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('theme_new') }}">Create a new theme</a>
+        </li>
+    </ul>
+{% endblock %}
