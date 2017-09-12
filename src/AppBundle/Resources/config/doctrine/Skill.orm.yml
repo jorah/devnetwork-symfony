@@ -1,0 +1,9 @@
+AppBundle\Entity\Skill:
+    type: entity
+    table: skill
+    repositoryClass: AppBundle\Repository\SkillRepository
+    lifecycleCallbacks: {  }
+    id: {id: { type: integer, id: true, generator: { strategy: AUTO }}}
+    
+    fields:
+        name:   { type: string,     length: 65,    nullable: true }

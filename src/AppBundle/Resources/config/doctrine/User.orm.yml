@@ -1,0 +1,35 @@
+AppBundle\Entity\User:
+    type:  entity
+    table: fos_user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    
+    fields:
+        firstname:  { type: string,     length: 65,    nullable: true }
+        lastname:   { type: string,     length: 65,    nullable: true }
+        job:        { type: json_array,                nullable: true }
+        bio:        { type: string,     length: 1000,  nullable: true }
+        createdAt:  { type: datetime }
+        updatedAt:  { type: datetime }
+        theme:      { type: string,     length: 65,    nullable: true }
+        img:        { type: string,     length: 10,    nullable: true }
+        status:     { type: boolean }
+        
+    manyToMany:
+        skills:
+            targetEntity: AppBundle\Entity\Skill
+            joinTable:
+                name: users_skills
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    skill_id:
+                        referencedColumnName: id
+                        nullable: false
+                        onDelete: RESTRICT
