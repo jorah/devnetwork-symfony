@@ -14,10 +14,15 @@ AppBundle\Entity\User:
         bio:        { type: string,     length: 1000,  nullable: true }
         createdAt:  { type: datetime }
         updatedAt:  { type: datetime,                  nullable: true }
-        theme:      { type: string,     length: 65,    nullable: true }
         img:        { type: string,     length: 10,    nullable: true }
         status:     { type: boolean }
-        
+    
+    oneToOne:
+        theme:
+            targetEntity: AppBundle\Entity\Theme
+            joinColumn:
+                name: theme_id
+                referencedColumnName: id
     manyToMany:
         skills:
             targetEntity: AppBundle\Entity\Skill

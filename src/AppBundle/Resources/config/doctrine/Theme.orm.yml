@@ -1,0 +1,8 @@
+AppBundle\Entity\Theme:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ThemeRepository
+    id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
+    
+    fields:
+        name:   { type: string,     length: 65 }

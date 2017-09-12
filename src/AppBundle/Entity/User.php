@@ -20,6 +20,7 @@ class User extends BaseUser
         // your own logic
     }
 
+   
     /**
      * @var string
      */
@@ -53,11 +54,6 @@ class User extends BaseUser
     /**
      * @var string
      */
-    private $theme;
-
-    /**
-     * @var string
-     */
     private $img;
 
     /**
@@ -69,6 +65,16 @@ class User extends BaseUser
      * @var \Doctrine\Common\Collections\Collection
      */
     private $skills;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $favCode;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $favPost;
 
 
     /**
@@ -216,30 +222,6 @@ class User extends BaseUser
     }
 
     /**
-     * Set theme
-     *
-     * @param string $theme
-     *
-     * @return User
-     */
-    public function setTheme($theme)
-    {
-        $this->theme = $theme;
-
-        return $this;
-    }
-
-    /**
-     * Get theme
-     *
-     * @return string
-     */
-    public function getTheme()
-    {
-        return $this->theme;
-    }
-
-    /**
      * Set img
      *
      * @param string $img
@@ -320,16 +302,6 @@ class User extends BaseUser
     {
         return $this->skills;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $favCode;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $favPost;
-
 
     /**
      * Add favCode
@@ -397,5 +369,34 @@ class User extends BaseUser
     public function getFavPost()
     {
         return $this->favPost;
+    }
+    /**
+     * @var \AppBundle\Entity\Theme
+     */
+    private $theme;
+
+
+    /**
+     * Set theme
+     *
+     * @param \AppBundle\Entity\Theme $theme
+     *
+     * @return User
+     */
+    public function setTheme(\AppBundle\Entity\Theme $theme = null)
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    /**
+     * Get theme
+     *
+     * @return \AppBundle\Entity\Theme
+     */
+    public function getTheme()
+    {
+        return $this->theme;
     }
 }
