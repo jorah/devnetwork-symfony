@@ -26,7 +26,7 @@ class CommentPostController extends Controller
 
         $commentPosts = $em->getRepository('AppBundle:CommentPost')->findAll();
 
-        return $this->render('commentpost/index.html.twig', array(
+        return $this->render('AppBundle:CommentPost:index.html.twig', array(
             'commentPosts' => $commentPosts,
         ));
     }
@@ -51,7 +51,7 @@ class CommentPostController extends Controller
             return $this->redirectToRoute('commentpost_show', array('id' => $commentPost->getId()));
         }
 
-        return $this->render('commentpost/new.html.twig', array(
+        return $this->render('AppBundle:CommentPost:new.html.twig', array(
             'commentPost' => $commentPost,
             'form' => $form->createView(),
         ));
@@ -67,7 +67,7 @@ class CommentPostController extends Controller
     {
         $deleteForm = $this->createDeleteForm($commentPost);
 
-        return $this->render('commentpost/show.html.twig', array(
+        return $this->render('AppBundle:CommentPost:show.html.twig', array(
             'commentPost' => $commentPost,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -91,7 +91,7 @@ class CommentPostController extends Controller
             return $this->redirectToRoute('commentpost_edit', array('id' => $commentPost->getId()));
         }
 
-        return $this->render('commentpost/edit.html.twig', array(
+        return $this->render('AppBundle:CommentPost:edit.html.twig', array(
             'commentPost' => $commentPost,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

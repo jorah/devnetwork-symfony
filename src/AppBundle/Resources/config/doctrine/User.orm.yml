@@ -1,11 +1,9 @@
 AppBundle\Entity\User:
     type:  entity
     table: fos_user
-    id:
-        id:
-            type: integer
-            generator:
-                strategy: AUTO
+    lifecycleCallbacks:
+        prePersist: [ insertDate ]
+    id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
         firstname:  { type: string,     length: 65,    nullable: true }
@@ -15,13 +13,14 @@ AppBundle\Entity\User:
         createdAt:  { type: datetime }
         updatedAt:  { type: datetime,                  nullable: true }
         img:        { type: string,     length: 10,    nullable: true }
-        status:     { type: boolean }
+        status:     { type: boolean,                   nullable: true }
     
     oneToOne:
         theme:
             targetEntity: AppBundle\Entity\Theme
             joinColumn:
                 name: theme_id
+                nullable: false
                 referencedColumnName: id
     manyToMany:
         skills:

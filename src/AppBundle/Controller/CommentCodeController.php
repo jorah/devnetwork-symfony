@@ -26,7 +26,7 @@ class CommentCodeController extends Controller
 
         $commentCodes = $em->getRepository('AppBundle:CommentCode')->findAll();
 
-        return $this->render('commentcode/index.html.twig', array(
+        return $this->render('AppBundle:CommentCode:index.html.twig', array(
             'commentCodes' => $commentCodes,
         ));
     }
@@ -51,7 +51,7 @@ class CommentCodeController extends Controller
             return $this->redirectToRoute('commentcode_show', array('id' => $commentCode->getId()));
         }
 
-        return $this->render('commentcode/new.html.twig', array(
+        return $this->render('AppBundle:CommentCode:new.html.twig', array(
             'commentCode' => $commentCode,
             'form' => $form->createView(),
         ));
@@ -67,7 +67,7 @@ class CommentCodeController extends Controller
     {
         $deleteForm = $this->createDeleteForm($commentCode);
 
-        return $this->render('commentcode/show.html.twig', array(
+        return $this->render('AppBundle:CommentCode:show.html.twig', array(
             'commentCode' => $commentCode,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -91,7 +91,7 @@ class CommentCodeController extends Controller
             return $this->redirectToRoute('commentcode_edit', array('id' => $commentCode->getId()));
         }
 
-        return $this->render('commentcode/edit.html.twig', array(
+        return $this->render('AppBundle:CommentCode:edit.html.twig', array(
             'commentCode' => $commentCode,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

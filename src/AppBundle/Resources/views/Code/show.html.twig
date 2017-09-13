@@ -1,0 +1,48 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Code</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ code.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ code.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ code.description }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ code.content }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if code.createdAt %}{{ code.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if code.updatedAt %}{{ code.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('code_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('code_edit', { 'id': code.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

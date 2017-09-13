@@ -271,4 +271,18 @@ class Code
     {
         return $this->tags;
     }
+    
+    ############################
+    
+    /**
+     * prePersist method
+     * 
+     * @return $this
+     */
+    public function insertDate()
+    {
+        $this->createdAt = new \DateTime();
+        
+        return $this;
+    }
 }

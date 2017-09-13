@@ -2,7 +2,8 @@ AppBundle\Entity\Post:
     type: entity
     table: post
     repositoryClass: AppBundle\Repository\PostRepository
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist: [ insertDate ]
     id: {id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
@@ -16,6 +17,7 @@ AppBundle\Entity\Post:
             targetEntity: AppBundle\Entity\User 
             joinColumn:
                 name: user_id
+                nullable: false
                 referencedColumnName: id
     
     manyToMany:

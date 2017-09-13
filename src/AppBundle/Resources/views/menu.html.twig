@@ -1,0 +1,26 @@
+<a href="{{ path('homepage') }}">homepage</a> | 
+<a href="{{ path('code_index') }}">Code</a> | 
+<a href="{{ path('commentcode_index') }}">CommentCode</a> | 
+<a href="{{ path('commentpost_index') }}">CommentPost</a> | 
+<a href="{{ path('language_index') }}">Language</a> | 
+<a href="{{ path('post_index') }}">Post</a> | 
+<a href="{{ path('skill_index') }}">Skill</a> | 
+<a href="{{ path('tag_index') }}">Tag</a> | 
+<a href="{{ path('theme_index') }}">Theme</a> | 
+<a href="{{ path('user_index') }}">User</a> | 
+
+
+
+
+
+||
+{%- if app.user.username is defined %}
+<span style="color:tomato">{{ app.user.username }}</span> 
+{%- for role in app.user.roles %}
+<span style="color:blue">{{ role }}</span>
+{%- endfor %}
+ 
+<a href="{{ path('fos_user_security_logout') }}">logout</a>
+{%- else %}
+<a href="{{ path('fos_user_security_login') }}">login</a>
+{%- endif %}

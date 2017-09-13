@@ -399,4 +399,18 @@ class User extends BaseUser
     {
         return $this->theme;
     }
+    
+    ############################
+    
+    /**
+     * prePersist method
+     * 
+     * @return $this
+     */
+    public function insertDate()
+    {
+        $this->createdAt = new \DateTime();
+        
+        return $this;
+    }
 }

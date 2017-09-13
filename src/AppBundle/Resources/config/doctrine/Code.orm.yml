@@ -2,7 +2,8 @@ AppBundle\Entity\Code:
     type: entity
     table: code
     repositoryClass: AppBundle\Repository\CodeRepository
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist: [ insertDate ]
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
@@ -12,18 +13,18 @@ AppBundle\Entity\Code:
         createdAt:      { type: datetime }
         updatedAt:      { type: datetime,                 nullable: true }
     
-    oneToOne:
-        language:
-            targetEntity: AppBundle\Entity\Language
-            joinColumn:
-                name: language_id
-                referencedColumnName: id
-    
     manyToOne:
         user:
             targetEntity: AppBundle\Entity\User 
             joinColumn:
                 name: user_id
+                nullable: false
+                referencedColumnName: id
+        language:
+            targetEntity: AppBundle\Entity\Language
+            joinColumn:
+                name: language_id
+                nullable: false
                 referencedColumnName: id
                 
     manyToMany:

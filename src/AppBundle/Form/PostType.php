@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class PostType extends AbstractType
 {
@@ -17,9 +18,6 @@ class PostType extends AbstractType
         $builder
                 ->add('title')
                 ->add('content')
-                ->add('createdAt')
-                ->add('updatedAt')
-                ->add('user')
                 ->add('tags')
         ;
     }

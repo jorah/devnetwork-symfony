@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Language;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Language controller.
@@ -26,7 +27,7 @@ class LanguageController extends Controller
 
         $languages = $em->getRepository('AppBundle:Language')->findAll();
 
-        return $this->render('language/index.html.twig', array(
+        return $this->render('AppBundle:Language:index.html.twig', array(
             'languages' => $languages,
         ));
     }
@@ -51,7 +52,7 @@ class LanguageController extends Controller
             return $this->redirectToRoute('language_show', array('id' => $language->getId()));
         }
 
-        return $this->render('language/new.html.twig', array(
+        return $this->render('AppBundle:Language:new.html.twig', array(
             'language' => $language,
             'form' => $form->createView(),
         ));
@@ -67,7 +68,7 @@ class LanguageController extends Controller
     {
         $deleteForm = $this->createDeleteForm($language);
 
-        return $this->render('language/show.html.twig', array(
+        return $this->render('AppBundle:Language:show.html.twig', array(
             'language' => $language,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -91,7 +92,7 @@ class LanguageController extends Controller
             return $this->redirectToRoute('language_edit', array('id' => $language->getId()));
         }
 
-        return $this->render('language/edit.html.twig', array(
+        return $this->render('AppBundle:Language:edit.html.twig', array(
             'language' => $language,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

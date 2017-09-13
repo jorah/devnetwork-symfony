@@ -20,8 +20,6 @@ class CodeType extends AbstractType
                 ->add('title')
                 ->add('description')
                 ->add('content')
-                ->add('createdAt')
-                ->add('updatedAt')
                 ->add('language',EntityType::class, [
                     'class' => 'AppBundle:Language',
                     'choice_label' => 'name'

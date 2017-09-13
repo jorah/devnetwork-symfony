@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Code;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Code controller.
@@ -14,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class CodeController extends Controller
 {
+
     /**
      * Lists all code entities.
      *
@@ -26,8 +29,8 @@ class CodeController extends Controller
 
         $codes = $em->getRepository('AppBundle:Code')->findAll();
 
-        return $this->render('code/index.html.twig', array(
-            'codes' => $codes,
+        return $this->render('AppBundle:Code:index.html.twig', array(
+                    'codes' => $codes,
         ));
     }
 
@@ -36,6 +39,13 @@ class CodeController extends Controller
      *
      * @Route("/new", name="code_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
+     * 
+     * @todo manage tags submition
+     * 
+     * @param Request $request
+     * 
+     * @return type
      */
     public function newAction(Request $request)
     {
@@ -43,17 +53,22 @@ class CodeController extends Controller
         $form = $this->createForm('AppBundle\Form\CodeType', $code);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($code);
-            $em->flush();
-
-            return $this->redirectToRoute('code_show', array('id' => $code->getId()));
+        if ($form->isSubmitted()) {
+            // add current user to the post
+            $code->setUser($this->get('security.token_storage')->getToken()->getUser());
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($code);
+                $em->flush();
+                return $this->redirectToRoute('code_show', array('id' => $code->getId()));
+            }
         }
 
-        return $this->render('code/new.html.twig', array(
-            'code' => $code,
-            'form' => $form->createView(),
+
+
+        return $this->render('AppBundle:Code:new.html.twig', array(
+                    'code' => $code,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -62,14 +77,15 @@ class CodeController extends Controller
      *
      * @Route("/{id}", name="code_show")
      * @Method("GET")
+     * 
      */
     public function showAction(Code $code)
     {
         $deleteForm = $this->createDeleteForm($code);
 
-        return $this->render('code/show.html.twig', array(
-            'code' => $code,
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('AppBundle:Code:show.html.twig', array(
+                    'code' => $code,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -78,23 +94,39 @@ class CodeController extends Controller
      *
      * @Route("/{id}/edit", name="code_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
+     * 
+     * @todo manage tags submition
+     * 
+     * @param Request $request
+     * @param Code $code
+     * 
+     * @return Response
      */
     public function editAction(Request $request, Code $code)
     {
+        // check if user is post owner
+        if ($this->get('security.token_storage')->getToken()->getUser()->getId() != $code->getUser()->getId()) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $deleteForm = $this->createDeleteForm($code);
         $editForm = $this->createForm('AppBundle\Form\CodeType', $code);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($editForm->isSubmitted()) {
+            if ($editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+            }else{
+                dump($editForm->getErrors());exit;
+            }
 
             return $this->redirectToRoute('code_edit', array('id' => $code->getId()));
         }
 
-        return $this->render('code/edit.html.twig', array(
-            'code' => $code,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('AppBundle:Code:edit.html.twig', array(
+                    'code' => $code,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -128,9 +160,10 @@ class CodeController extends Controller
     private function createDeleteForm(Code $code)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('code_delete', array('id' => $code->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('code_delete', array('id' => $code->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

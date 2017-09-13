@@ -1,0 +1,43 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Commentposts list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+                <th>Createdat</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commentPost in commentPosts %}
+            <tr>
+                <td><a href="{{ path('commentpost_show', { 'id': commentPost.id }) }}">{{ commentPost.id }}</a></td>
+                <td>{{ commentPost.content }}</td>
+                <td>{% if commentPost.createdAt %}{{ commentPost.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if commentPost.updatedAt %}{{ commentPost.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('commentpost_show', { 'id': commentPost.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('commentpost_edit', { 'id': commentPost.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('commentpost_new') }}">Create a new commentPost</a>
+        </li>
+    </ul>
+{% endblock %}

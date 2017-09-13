@@ -1,0 +1,9 @@
+AppBundle\Entity\Post:
+    properties:
+        title:
+            - NotBlank: ~
+            - Length:
+                min: 4
+                max: 60
+                minMessage: 'Title must be at least {{ limit }} characters long'
+                maxMessage: 'Title cannot be longer than {{ limit }} characters'

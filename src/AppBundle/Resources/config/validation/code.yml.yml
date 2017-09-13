@@ -1,0 +1,15 @@
+AppBundle\Entity\Code:
+    properties:
+        title:
+            - NotBlank: ~
+            - Length:
+                min: 4
+                max: 60
+                minMessage: 'Title must be at least {{ limit }} characters long'
+                maxMessage: 'Title cannot be longer than {{ limit }} characters'
+        language:
+            - NotBlank:
+                message: 'Language type need to be defined'
+            
+
+            

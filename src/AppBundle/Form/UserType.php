@@ -20,8 +20,6 @@ class UserType extends AbstractType
                 ->add('lastname')
                 ->add('job')
                 ->add('bio')
-                ->add('createdAt')
-                ->add('updatedAt')
                 ->add('img')
                 ->add('status')
                 ->add('skills')

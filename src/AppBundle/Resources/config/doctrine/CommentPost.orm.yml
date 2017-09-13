@@ -15,9 +15,11 @@ AppBundle\Entity\CommentPost:
             targetEntity: AppBundle\Entity\User 
             joinColumn:
                 name: user_id
+                nullable: false
                 referencedColumnName: id
         post:
             targetEntity: AppBundle\Entity\Post 
             joinColumn:
                 name: post_id
+                nullable: false
                 referencedColumnName: id

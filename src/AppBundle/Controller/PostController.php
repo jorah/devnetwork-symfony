@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Post controller.
@@ -14,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class PostController extends Controller
 {
+
     /**
      * Lists all post entities.
      *
@@ -26,8 +29,8 @@ class PostController extends Controller
 
         $posts = $em->getRepository('AppBundle:Post')->findAll();
 
-        return $this->render('post/index.html.twig', array(
-            'posts' => $posts,
+        return $this->render('AppBundle:Post:index.html.twig', array(
+                    'posts' => $posts,
         ));
     }
 
@@ -36,24 +39,35 @@ class PostController extends Controller
      *
      * @Route("/new", name="post_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
+     * 
+     * @todo manage tags submition
+     * 
+     * @param Request $request
+     * 
+     * @return Response
      */
     public function newAction(Request $request)
     {
         $post = new Post();
+
         $form = $this->createForm('AppBundle\Form\PostType', $post);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
-
-            return $this->redirectToRoute('post_show', array('id' => $post->getId()));
+        if ($form->isSubmitted()) {
+            // add current user to the post
+            $post->setUser($this->get('security.token_storage')->getToken()->getUser());
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($post);
+                $em->flush();
+                return $this->redirectToRoute('post_show', array('id' => $post->getId()));
+            }
         }
 
-        return $this->render('post/new.html.twig', array(
-            'post' => $post,
-            'form' => $form->createView(),
+        return $this->render('AppBundle:Post:new.html.twig', array(
+                    'post' => $post,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -67,9 +81,9 @@ class PostController extends Controller
     {
         $deleteForm = $this->createDeleteForm($post);
 
-        return $this->render('post/show.html.twig', array(
-            'post' => $post,
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('AppBundle:Post:show.html.twig', array(
+                    'post' => $post,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -78,23 +92,39 @@ class PostController extends Controller
      *
      * @Route("/{id}/edit", name="post_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
+     * 
+     * @todo manage tags submition
+     * 
+     * @param Request $request
+     * @param Code $code
+     * 
+     * @return Response
      */
     public function editAction(Request $request, Post $post)
     {
+        // check if user is post owner
+        if ($this->get('security.token_storage')->getToken()->getUser()->getId() != $code->getUser()->getId()) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $deleteForm = $this->createDeleteForm($post);
         $editForm = $this->createForm('AppBundle\Form\PostType', $post);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($editForm->isSubmitted()) {
+            if ($editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+            }else{
+                dump($editForm->getErrors());exit;
+            }
 
             return $this->redirectToRoute('post_edit', array('id' => $post->getId()));
         }
 
-        return $this->render('post/edit.html.twig', array(
-            'post' => $post,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('AppBundle:Post:edit.html.twig', array(
+                    'post' => $post,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -128,9 +158,10 @@ class PostController extends Controller
     private function createDeleteForm(Post $post)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('post_delete', array('id' => $post->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('post_delete', array('id' => $post->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

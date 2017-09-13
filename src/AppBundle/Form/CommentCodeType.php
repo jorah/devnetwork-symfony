@@ -16,10 +16,6 @@ class CommentCodeType extends AbstractType
     {
         $builder
                 ->add('content')
-                ->add('createdAt')
-                ->add('updatedAt')
-                ->add('user')
-                ->add('code')
         ;
     }
 

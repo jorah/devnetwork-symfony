@@ -26,7 +26,7 @@ class SkillController extends Controller
 
         $skills = $em->getRepository('AppBundle:Skill')->findAll();
 
-        return $this->render('skill/index.html.twig', array(
+        return $this->render('AppBundle:Skill:index.html.twig', array(
             'skills' => $skills,
         ));
     }
@@ -51,7 +51,7 @@ class SkillController extends Controller
             return $this->redirectToRoute('skill_show', array('id' => $skill->getId()));
         }
 
-        return $this->render('skill/new.html.twig', array(
+        return $this->render('AppBundle:Skill:new.html.twig', array(
             'skill' => $skill,
             'form' => $form->createView(),
         ));
@@ -67,7 +67,7 @@ class SkillController extends Controller
     {
         $deleteForm = $this->createDeleteForm($skill);
 
-        return $this->render('skill/show.html.twig', array(
+        return $this->render('AppBundle:Skill:show.html.twig', array(
             'skill' => $skill,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -91,7 +91,7 @@ class SkillController extends Controller
             return $this->redirectToRoute('skill_edit', array('id' => $skill->getId()));
         }
 
-        return $this->render('skill/edit.html.twig', array(
+        return $this->render('AppBundle:Skill:edit.html.twig', array(
             'skill' => $skill,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
