@@ -1,0 +1,11 @@
+<a class="btn {%if options['sort'] is defined and options['sort'] is not empty%}btn-primary{% else%} btn-default{% endif %}" href="{{options['href']}}">{{ title }}
+
+{% if options['class']  == 'desc' %}
+    <span class="glyphicon glyphicon-chevron-down"></span>
+
+{% elseif options['class']  == 'asc' %}
+    <span class="glyphicon glyphicon-chevron-up"></span>
+{%endif %}    
+    
+
+</a>  

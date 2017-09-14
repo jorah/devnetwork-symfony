@@ -80,3 +80,8 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
+        
+knp_paginator:
+    template:
+        pagination: AdminBundle:Pagination:sliding.html.twig 
+        sortable: AdminBundle:Pagination:sortable_link.html.twig         

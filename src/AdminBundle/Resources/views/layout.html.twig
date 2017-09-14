@@ -7,6 +7,7 @@
         <meta name="description" content="SiteBundle">
         <meta name="author" content="Linkus">
         <link rel="stylesheet" href="{{ asset('bundles/admin/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/admin/css/main.css') }}" />
         {%- block stylesheets %}{%- endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         {%- block js_lib %}
@@ -23,14 +24,16 @@
         {%- endblock %}
     </head>
     <body>
-        {%- block menu %}
+            {%- block menu %}
 
-        {% include 'AdminBundle::menu.html.twig' with {'route' : app.request.attributes.get('_route')} %}
+            {% include 'AdminBundle::menu.html.twig' with {'route' : app.request.attributes.get('_route')} %}
 
-        {%- endblock %}
-        {%- block body %}{%- endblock %}
+            {%- endblock %}
+        <div class="container">
+            {%- block body %}{%- endblock %}
+        </div>
         {%- block javascripts %}{%- endblock %}
-        
+
     </body>
 </html>
 

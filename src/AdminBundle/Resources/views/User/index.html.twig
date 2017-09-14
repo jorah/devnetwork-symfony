@@ -1,5 +1,43 @@
 {% extends 'AdminBundle::layout.html.twig' %}
 
 {% block body %}
-
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    {%- set attrs = ['id'] %}
+                    {%- for attr in attrs %}
+                    {{ knp_pagination_sortable(users, attr|capitalize, 'u.'~attr, {sort : users.isSorted('u.'~attr)}) }}
+                    {%- endfor %}
+                </div>
+                <div class="btn-group">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul class="pagination">{{ knp_pagination_render(users) }} </ul>
+                </div>
+                <div class="btn-group">
+                    <span class="badge">{{ users.getTotalItemCount }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <table class="table">
+                <tbody>
+                    {%- for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {%- for skill in user.skills %}
+                            {{ skill.id }}
+                            {%- endfor %}
+                        </td>
+                    </tr>
+                    {%- endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

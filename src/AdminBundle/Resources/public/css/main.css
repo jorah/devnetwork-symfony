@@ -1,0 +1,20 @@
+/*
+    KnpPaginator
+*/
+ul.pagination{
+    margin: 0px 0px!important;
+}
+
+/*TestUrl*/
+.tooltip-testURL {
+    max-width: 7000px;
+    text-align: left;
+}
+.tooltip-testURL .tttu{
+    display: inline-block;
+    width: 55px;
+    text-transform: capitalize;
+}
+
+
+

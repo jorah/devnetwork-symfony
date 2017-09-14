@@ -14,16 +14,24 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UserController extends Controller
 {
+
     /**
      * Lists all language entities.
      *
-     * @Route("/users", name="admin_users")
+     * @Route("/users/{page}", name="admin_users", defaults={"page" = 1}, requirements={
+     *  "page" = "\d+"
+     * })
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction($page)
     {
-        $users = $this->get('user.manager')->findUsers(true);
-        return $this->render('AdminBundle:User:index.html.twig');
+        $qbUsers = $this->get('user.manager')->findUsers(true);
+        $users = $this->get('knp_paginator')->paginate(
+                $qbUsers, $page, 1, ['distinct' => true]
+        );
+        return $this->render('AdminBundle:User:index.html.twig', [
+                    'users' => $users
+        ]);
     }
-    
+
 }

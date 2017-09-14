@@ -1,0 +1,35 @@
+{% if pageCount > 1 %}
+    
+        {% if previous is defined %}
+        <li><a id="paginator_prev" href="{{ path(route, query|merge({'page': previous})) }}">&lt;&lt;</a></li>
+        {% endif %}
+
+        {% if first is defined  %}
+        <li><a id="paginator_first" href="{{ path(route, query|merge({'page': first})) }}">1</a></li>
+        {% endif %}
+
+        {% if current > pageRange - first %} <li class="disabled"><a>...</a></li> {% endif %}
+        
+        
+
+        {% for page in pagesInRange %}             
+            {% if page != first and page != last%}
+                {% if page != current %}
+                <li><a href="{{ path(route, query|merge({'page': page})) }}">{{ page }}</a></li>                
+                {% else %}
+                <li class="active"><a>{{ page }}</a></li>                
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if current <= last - pageRange + 1 %} <li class="disabled"><a>...</a></li> {% endif %}
+
+        {% if last is defined  %}
+         <li><a id="paginator_last" href="{{ path(route, query|merge({'page': last})) }}">{{last}}</a></li>
+        {% endif %}
+        
+        {% if next is defined %}
+        <li><a id="paginator_next" href="{{ path(route, query|merge({'page': next})) }}">&gt;&gt;</a></li>
+        {% endif %}
+   
+{% endif %}

@@ -3,6 +3,8 @@ AppBundle\Entity\User:
     table: fos_user
     lifecycleCallbacks:
         prePersist: [ insertDate ]
+    repositoryClass: AppBundle\Repository\UserRepository
+    
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
