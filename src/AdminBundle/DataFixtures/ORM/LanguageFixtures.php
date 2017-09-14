@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DataFixtures\ORM;
+namespace AdminBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Language;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -162,9 +162,16 @@ class LanguageFixtures extends Fixture
             $lang = new Language;
             $lang->setName($name);
             $manager->persist($lang);
+            $manager->flush();
+            if($name == 'php'){
+                $this->addReference('language-php', $lang);
+            }
+            if($name == 'javascript'){
+                $this->addReference('language-javascript', $lang);
+            }
         }
 
-        $manager->flush();
+        
     }
 
 }

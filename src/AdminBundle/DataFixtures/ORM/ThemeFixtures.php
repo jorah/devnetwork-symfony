@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DataFixtures\ORM;
+namespace AdminBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Theme;
 use Doctrine\Bundle\FixturesBundle\Fixture;
