@@ -127,7 +127,7 @@ class CommentPost
      *
      * @return CommentPost
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -151,7 +151,7 @@ class CommentPost
      *
      * @return CommentPost
      */
-    public function setPost(\AppBundle\Entity\Post $post = null)
+    public function setPost(\AppBundle\Entity\Post $post)
     {
         $this->post = $post;
 

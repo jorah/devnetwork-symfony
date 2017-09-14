@@ -127,7 +127,7 @@ class CommentCode
      *
      * @return CommentCode
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -151,7 +151,7 @@ class CommentCode
      *
      * @return CommentCode
      */
-    public function setCode(\AppBundle\Entity\Code $code = null)
+    public function setCode(\AppBundle\Entity\Code $code)
     {
         $this->code = $code;
 

@@ -109,4 +109,18 @@ class Tag
     {
         return $this->createdAt;
     }
+    
+    ############################
+    
+    /**
+     * prePersist method
+     * 
+     * @return $this
+     */
+    public function insertDate()
+    {
+        $this->createdAt = new \DateTime();
+        
+        return $this;
+    }
 }

@@ -5,4 +5,4 @@ AppBundle\Entity\Theme:
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
-        name:   { type: string,     length: 65 }
+        name:   { type: string,     length: 65,  unique: true }

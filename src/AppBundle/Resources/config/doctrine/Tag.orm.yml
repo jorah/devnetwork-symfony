@@ -2,11 +2,12 @@ AppBundle\Entity\Tag:
     type: entity
     table: tag
     repositoryClass: AppBundle\Repository\TagRepository
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist: [ insertDate ]
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
-        name:       { type: string,     length: 65 }
+        name:       { type: string,     length: 65,  unique: true }
         createdAt:  { type: datetime }
         count:      { type: integer,    nullable: true }
         

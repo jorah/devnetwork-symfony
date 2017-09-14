@@ -197,7 +197,7 @@ class Code
      *
      * @return Code
      */
-    public function setLanguage(\AppBundle\Entity\Language $language = null)
+    public function setLanguage(\AppBundle\Entity\Language $language)
     {
         $this->language = $language;
 
@@ -221,7 +221,7 @@ class Code
      *
      * @return Code
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
 
