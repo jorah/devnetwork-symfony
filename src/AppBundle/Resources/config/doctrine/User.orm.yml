@@ -20,7 +20,7 @@ AppBundle\Entity\User:
             targetEntity: AppBundle\Entity\Theme
             joinColumn:
                 name: theme_id
-                nullable: false
+                nullable: true
                 referencedColumnName: id
     manyToMany:
         skills:

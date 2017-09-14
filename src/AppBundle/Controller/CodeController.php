@@ -106,6 +106,7 @@ class CodeController extends Controller
     public function editAction(Request $request, Code $code)
     {
         // check if user is post owner
+        
         if ($this->get('security.token_storage')->getToken()->getUser()->getId() != $code->getUser()->getId()) {
             return $this->redirectToRoute('fos_user_security_login');
         }
