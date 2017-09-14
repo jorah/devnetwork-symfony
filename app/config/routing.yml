@@ -1,49 +1,11 @@
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-
-#app_theme:
-#    resource: "@AppBundle/Controller/ThemeController.php"
-#    type:     annotation
-#
-#app_user:
-#    resource: "@AppBundle/Controller/UserController.php"
-#    type:     annotation
-#
-#app_tag:
-#    resource: "@AppBundle/Controller/TagController.php"
-#    type:     annotation
-#
-#app_skill:
-#    resource: "@AppBundle/Controller/SkillController.php"
-#    type:     annotation
-#
-#app_post:
-#    resource: "@AppBundle/Controller/PostController.php"
-#    type:     annotation
-#
-#app_language:
-#    resource: "@AppBundle/Controller/LanguageController.php"
-#    type:     annotation
-#
-#app_comment_post:
-#    resource: "@AppBundle/Controller/CommentPostController.php"
-#    type:     annotation
-#
-#app_comment_code:
-#    resource: "@AppBundle/Controller/CommentCodeController.php"
-#    type:     annotation
-#
-#app_code:
-#    resource: "@AppBundle/Controller/CodeController.php"
-#    type:     annotation
-
-
     
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
-#admin:
-#    resource: "@AdminBundle/Controller/"
-#    type:     annotation
-#    prefix:   /admin
+admin:
+    resource: "@AdminBundle/Controller/"
+    type: annotation
+ 

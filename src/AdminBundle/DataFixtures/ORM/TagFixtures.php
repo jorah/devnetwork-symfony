@@ -17,11 +17,11 @@ class TagFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $tag = new Tag();
-        $tag->setCount(2)->setName('hello-world');
+        $tag->setCount(0)->setName('hello-world');
         $manager->persist($tag);
         
         $tag2 = new Tag();
-        $tag2->setCount(2)->setName('blabla');
+        $tag2->setCount(0)->setName('blabla');
         $manager->persist($tag2);
         
         $manager->flush();

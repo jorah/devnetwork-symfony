@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for code in codes %}
+            {%- for code in codes %}
             <tr>
                 <td><a href="{{ path('code_show', { 'id': code.id }) }}">{{ code.id }}</a></td>
                 <td>{{ code.title }}</td>
@@ -26,24 +26,21 @@
                 <td>{{ code.content }}</td>
                 <td>{% if code.createdAt %}{{ code.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if code.updatedAt %}{{ code.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('code_show', { 'id': code.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('code_edit', { 'id': code.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+
             </tr>
-        {% endfor %}
+            {%- endfor %}
         </tbody>
     </table>
-
+    <code>only authenticated user can create code </code>
     <ul>
+        {%- if is_granted("ROLE_USER") %}
         <li>
-            <a href="{{ path('code_new') }}">Create a new code</a>
+            <a href="{{ path('code_new') }}">Create a new post</a>
         </li>
+        {%- else %}
+        <li>
+            <a href="{{ path('fos_user_security_login') }}">login</a>
+        </li>
+        {%- endif %}
     </ul>
 {% endblock %}

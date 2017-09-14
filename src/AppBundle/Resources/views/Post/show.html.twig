@@ -21,30 +21,41 @@
                 <th>Createdat</th>
                 <td>{% if post.createdAt %}{{ post.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{% if post.updatedAt %}{{ post.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
+            {% if post.updatedAt %}
+                <tr>
+                    <th>Updatedat</th>
+                    <td>{{ post.updatedAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 
+    <code>only owner can edit/delete a post</code>
     <ul>
         <li>
             <a href="{{ path('post_index') }}">Back to the list</a>
         </li>
+        {%- if app.user.id is defined %} {# user authenticated #}
+        {%- if app.user.id == post.user.id %} {# user is post owner #}
         <li>
             <a href="{{ path('post_edit', { 'id': post.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
+        {%- endif %}
+        {%- endif %}
     </ul>
-            
+
     <div>
-        <code>display form new CommentCode if user is connected</code>
-        
-        {{ render(controller('AppBundle:CommentPost:new', {'id' : post.id })) }} 
+        <code>display form "new CommentPost" if user is authenticated</code>
+        <br />
+        {%- if is_granted("ROLE_USER") %}
+        {{ render(controller('AppBundle:CommentPost:new', {'id' : post.id })) }}
+        {%- else %}
+        You need to be <a href="{{ path('fos_user_security_login') }}">logged</a>  to post a comment
+        {%- endif %}
     </div>
 {% endblock %}

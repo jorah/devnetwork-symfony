@@ -2,10 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\AbstractEntity;
 /**
  * Code
  */
-class Code
+class Code extends AbstractEntity
 {
     /**
      * @var int
@@ -40,12 +41,12 @@ class Code
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @var \AppBundle\Entity\Language
@@ -60,7 +61,7 @@ class Code
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $tags;
+    protected $tags;
 
     /**
      * Constructor
@@ -271,18 +272,5 @@ class Code
     {
         return $this->tags;
     }
-    
-    ############################
-    
-    /**
-     * prePersist method
-     * 
-     * @return $this
-     */
-    public function insertDate()
-    {
-        $this->createdAt = new \DateTime();
         
-        return $this;
-    }
 }

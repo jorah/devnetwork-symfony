@@ -1,0 +1,75 @@
+{%- block menu %}
+
+<nav class="navbar navbar-inverse " role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{ path('admin_homepage') }}">Admin</a>
+        <a class="navbar-brand" href="{{ path('homepage') }}">Site</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+
+        <ul class="nav navbar-nav">
+            <li><a class="disabled">|</a></li>
+            <li><a href="{{ path('admin_users') }}">Users</a></li>
+            <li><a href="#">Codes</a></li>
+            <li><a href="#">Posts</a></li>
+            <li><a href="#">Comments</a></li>
+            <li><a href="#">Tags</a></li>
+            <li><a href="#">Languages</a></li>
+            <li><a href="#">Skills</a></li>
+            <li><a href="#">Themes</a></li>
+
+            {#            <li {% if route == 'applink_api_homepage' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_homepage') }}">Api</a></li>#}
+
+            
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#">{{ app.user.username }}</a>
+            </li>
+            {#<li {% if route == 'applink_api_testUrl' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_testUrl') }}">TestUrl</a></li>
+            <li {% if route == 'applink_api_testcURL' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_testcURL') }}">Test cURL</a></li>
+
+            {%- if twigHasApiService('api.app.explorer') %}
+            <li {% if route == 'applink_api_explorer' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_explorer') }}">Explorer</a></li>
+                {%- endif %}
+
+            {%- if twigHasApiService('api.app.parameter') %}
+            <li {% if route == 'applink_api_parameter' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_parameter') }}">Parameter</a></li>
+                {%- endif %}
+
+            {%- if twigHasApiService('api.app.log') %}
+            <li {% if route == 'applink_api_log' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_log') }}">Log</a></li>
+                {%- endif %}#}
+
+        </ul>
+    </div>
+</nav>
+
+{# usage: $this->get('session')->getFlashBag()->add('danger', 'parameters not valid'); #}
+{#  flashMessage #}
+
+<div id="flashMessages" class="container-fluid">
+
+    {%- for type, flashMessages in app.session.flashbag.all() -%}
+
+    {%- for flashMessage in flashMessages -%}
+
+    <div class="row">
+        <div class="col-md-8 alert col-md-offset-2 alert-{{ type }} alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ flashMessage|raw }}
+        </div>
+    </div> 
+
+    {%- endfor -%}
+
+    {%- endfor -%}
+</div> 
+
+{%- endblock %}

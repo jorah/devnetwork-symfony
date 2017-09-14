@@ -2,10 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\AbstractEntity;
 /**
  * Post
  */
-class Post
+class Post extends AbstractEntity
 {
    
     /**
@@ -26,12 +27,12 @@ class Post
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @var \AppBundle\Entity\User
@@ -214,18 +215,5 @@ class Post
     {
         return $this->tags;
     }
-    
-    ############################
-    
-    /**
-     * prePersist method
-     * 
-     * @return $this
-     */
-    public function insertDate()
-    {
-        $this->createdAt = new \DateTime();
-        
-        return $this;
-    }
+   
 }

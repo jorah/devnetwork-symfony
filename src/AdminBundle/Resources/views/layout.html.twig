@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="utf-8">
+        <title>{%- block title -%}Admin {%- endblock -%}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <title>{% block title %}Layout{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('') }}" />
-        {% block stylesheets %}{% endblock %}
+        <meta name="description" content="SiteBundle">
+        <meta name="author" content="Linkus">
+        <link rel="stylesheet" href="{{ asset('bundles/admin/css/bootstrap.min.css') }}" />
+        {%- block stylesheets %}{%- endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        
+        {%- block js_lib %}
+
+        {#FOSJsRouting#}
+        {#        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+        {#        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>#}
+        {#HInclude#}
+        {#        <script type="text/javascript" src="{{ asset('bundles/linkusapi/js/hinclude.js') }}"></script>#}
+
+        <script type="text/javascript" src="{{ asset('bundles/applinkapi/js/jquery-2.1.4.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/applinkapi/js/bootstrap.min.js') }}"></script>
+
+        {%- endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {%- block menu %}
+
+        {% include 'AdminBundle::menu.html.twig' with {'route' : app.request.attributes.get('_route')} %}
+
+        {%- endblock %}
+        {%- block body %}{%- endblock %}
+        {%- block javascripts %}{%- endblock %}
+        
     </body>
 </html>
 

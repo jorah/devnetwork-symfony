@@ -1,0 +1,9 @@
+parameters:
+    
+    
+services:
+    
+    user.manager:
+        class: AppBundle\Manager\UserManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'

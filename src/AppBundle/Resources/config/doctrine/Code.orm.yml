@@ -3,7 +3,8 @@ AppBundle\Entity\Code:
     table: code
     repositoryClass: AppBundle\Repository\CodeRepository
     lifecycleCallbacks:
-        prePersist: [ insertDate ]
+        prePersist: [ insertDate, updateCountTag ]
+        preUpdate:  [ updateDate ]
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
