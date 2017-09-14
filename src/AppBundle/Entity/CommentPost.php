@@ -167,4 +167,18 @@ class CommentPost
     {
         return $this->post;
     }
+    
+    ############################
+    
+    /**
+     * prePersist method
+     * 
+     * @return $this
+     */
+    public function insertDate()
+    {
+        $this->createdAt = new \DateTime();
+        
+        return $this;
+    }
 }

@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CommentCode;
+use AppBundle\Entity\Code;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Commentcode controller.
@@ -14,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class CommentCodeController extends Controller
 {
+
     /**
      * Lists all commentCode entities.
      *
@@ -27,33 +31,45 @@ class CommentCodeController extends Controller
         $commentCodes = $em->getRepository('AppBundle:CommentCode')->findAll();
 
         return $this->render('AppBundle:CommentCode:index.html.twig', array(
-            'commentCodes' => $commentCodes,
+                    'commentCodes' => $commentCodes,
         ));
     }
 
     /**
      * Creates a new commentCode entity.
      *
-     * @Route("/new", name="commentcode_new")
+     * @Route("/new/{id}", name="commentcode_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Code $code)
     {
+        
         $commentCode = new Commentcode();
+
         $form = $this->createForm('AppBundle\Form\CommentCodeType', $commentCode);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($commentCode);
-            $em->flush();
+        if ($form->isSubmitted()) {
+            $commentCode->setUser($this->getUser());
+            $commentCode->setCode($code);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($commentCode);
+                $em->flush();
+            }else{
+                dump($form->getErrors());exit;
+            }
 
-            return $this->redirectToRoute('commentcode_show', array('id' => $commentCode->getId()));
+
+//            return $this->redirectToRoute('commentcode_show', array('id' => $commentCode->getId()));
+            return $this->redirectToRoute('code_show', array('id' => $code->getId()));
         }
 
         return $this->render('AppBundle:CommentCode:new.html.twig', array(
-            'commentCode' => $commentCode,
-            'form' => $form->createView(),
+                    'commentCode' => $commentCode,
+                    'code_id' => $code->getId(),
+                    'form' => $form->createView(),
         ));
     }
 
@@ -68,8 +84,8 @@ class CommentCodeController extends Controller
         $deleteForm = $this->createDeleteForm($commentCode);
 
         return $this->render('AppBundle:CommentCode:show.html.twig', array(
-            'commentCode' => $commentCode,
-            'delete_form' => $deleteForm->createView(),
+                    'commentCode' => $commentCode,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -92,9 +108,9 @@ class CommentCodeController extends Controller
         }
 
         return $this->render('AppBundle:CommentCode:edit.html.twig', array(
-            'commentCode' => $commentCode,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'commentCode' => $commentCode,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -128,9 +144,10 @@ class CommentCodeController extends Controller
     private function createDeleteForm(CommentCode $commentCode)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('commentcode_delete', array('id' => $commentCode->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('commentcode_delete', array('id' => $commentCode->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

@@ -1,0 +1,20 @@
+AppBundle\Entity\CodeComment:
+    properties:
+        content:
+            - NotBlank: ~
+            - Length:
+                min: 4
+                max: 598
+                minMessage: 'Title must be at least {{ limit }} characters long'
+                maxMessage: 'Title cannot be longer than {{ limit }} characters'
+        
+AppBundle\Entity\PostComment:
+    properties:
+        content:
+            - NotBlank: ~
+            - Length:
+                min: 4
+                max: 598
+                minMessage: 'Title must be at least {{ limit }} characters long'
+                maxMessage: 'Title cannot be longer than {{ limit }} characters'
+      

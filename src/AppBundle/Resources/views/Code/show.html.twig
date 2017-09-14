@@ -48,5 +48,7 @@
 
     <div>
         <code>display form new CommentCode if user is connected</code>
+        
+        {{ render(controller('AppBundle:CommentCode:new', {'id' : code.id })) }} 
     </div>
 {% endblock %}

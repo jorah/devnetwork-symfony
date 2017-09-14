@@ -55,7 +55,7 @@ class CodeController extends Controller
 
         if ($form->isSubmitted()) {
             // add current user to the post
-            $code->setUser($this->get('security.token_storage')->getToken()->getUser());
+            $code->setUser($this->getUser());
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($code);
@@ -107,7 +107,7 @@ class CodeController extends Controller
     {
         // check if user is post owner
         
-        if ($this->get('security.token_storage')->getToken()->getUser()->getId() != $code->getUser()->getId()) {
+        if ($this->getUser()->getId() != $code->getUser()->getId()) {
             return $this->redirectToRoute('fos_user_security_login');
         }
         $deleteForm = $this->createDeleteForm($code);

@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CommentPost;
+use AppBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Commentpost controller.
@@ -14,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class CommentPostController extends Controller
 {
+
     /**
      * Lists all commentPost entities.
      *
@@ -27,33 +31,45 @@ class CommentPostController extends Controller
         $commentPosts = $em->getRepository('AppBundle:CommentPost')->findAll();
 
         return $this->render('AppBundle:CommentPost:index.html.twig', array(
-            'commentPosts' => $commentPosts,
+                    'commentPosts' => $commentPosts,
         ));
     }
 
     /**
      * Creates a new commentPost entity.
      *
-     * @Route("/new", name="commentpost_new")
+     * @Route("/new/{id}", name="commentpost_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Post $post)
     {
         $commentPost = new Commentpost();
+
         $form = $this->createForm('AppBundle\Form\CommentPostType', $commentPost);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($commentPost);
-            $em->flush();
+        if ($form->isSubmitted()) {
+            $commentPost->setUser($this->getUser());
+            $commentPost->setPost($post);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($commentPost);
+                $em->flush();
+            } else {
+                dump($form->getErrors());
+                
+            }
 
-            return $this->redirectToRoute('commentpost_show', array('id' => $commentPost->getId()));
+
+//            return $this->redirectToRoute('commentpost_show', array('id' => $commentPost->getId()));
+            return $this->redirectToRoute('post_show', array('id' => $post->getId()));
         }
 
         return $this->render('AppBundle:CommentPost:new.html.twig', array(
-            'commentPost' => $commentPost,
-            'form' => $form->createView(),
+                    'commentPost' => $commentPost,
+                    'post_id' => $post->getId(),
+                    'form' => $form->createView(),
         ));
     }
 
@@ -68,8 +84,8 @@ class CommentPostController extends Controller
         $deleteForm = $this->createDeleteForm($commentPost);
 
         return $this->render('AppBundle:CommentPost:show.html.twig', array(
-            'commentPost' => $commentPost,
-            'delete_form' => $deleteForm->createView(),
+                    'commentPost' => $commentPost,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -92,9 +108,9 @@ class CommentPostController extends Controller
         }
 
         return $this->render('AppBundle:CommentPost:edit.html.twig', array(
-            'commentPost' => $commentPost,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'commentPost' => $commentPost,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -128,9 +144,10 @@ class CommentPostController extends Controller
     private function createDeleteForm(CommentPost $commentPost)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('commentpost_delete', array('id' => $commentPost->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('commentpost_delete', array('id' => $commentPost->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

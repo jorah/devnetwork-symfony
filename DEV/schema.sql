@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 13, 2017 at 09:18 AM
+-- Generation Time: Sep 14, 2017 at 02:25 PM
 -- Server version: 5.5.55-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.21
 
@@ -22,17 +22,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `code` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `language_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
   `title` varchar(65) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `content` varchar(1200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_7715309882F1BAF4` (`language_id`),
-  KEY `IDX_77153098A76ED395` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1 ;
+  KEY `IDX_77153098A76ED395` (`user_id`),
+  KEY `IDX_7715309882F1BAF4` (`language_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `code` (
 
 CREATE TABLE IF NOT EXISTS `comment_code` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `post_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
   `content` varchar(600) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `comment_code` (
 
 CREATE TABLE IF NOT EXISTS `comment_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `post_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
   `content` varchar(600) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -125,13 +125,13 @@ CREATE TABLE IF NOT EXISTS `fos_user` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `img` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_957A647992FC23A8` (`username_canonical`),
   UNIQUE KEY `UNIQ_957A6479A0D96FBF` (`email_canonical`),
   UNIQUE KEY `UNIQ_957A6479C05FB297` (`confirmation_token`),
   UNIQUE KEY `UNIQ_957A647959027487` (`theme_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `fos_user` (
 
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `title` varchar(65) COLLATE utf8mb4_unicode_ci NOT NULL,
   `content` varchar(1200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `programming_languages` (
   `name` varchar(65) COLLATE utf8mb4_unicode_ci NOT NULL,
   `count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=140 ;
 
 -- --------------------------------------------------------
 
@@ -227,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `theme` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(65) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -251,8 +251,8 @@ CREATE TABLE IF NOT EXISTS `users_skills` (
 -- Constraints for table `code`
 --
 ALTER TABLE `code`
-  ADD CONSTRAINT `FK_77153098A76ED395` FOREIGN KEY (`user_id`) REFERENCES `fos_user` (`id`),
-  ADD CONSTRAINT `FK_7715309882F1BAF4` FOREIGN KEY (`language_id`) REFERENCES `programming_languages` (`id`);
+  ADD CONSTRAINT `FK_7715309882F1BAF4` FOREIGN KEY (`language_id`) REFERENCES `programming_languages` (`id`),
+  ADD CONSTRAINT `FK_77153098A76ED395` FOREIGN KEY (`user_id`) REFERENCES `fos_user` (`id`);
 
 --
 -- Constraints for table `comment_code`

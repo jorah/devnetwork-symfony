@@ -167,4 +167,18 @@ class CommentCode
     {
         return $this->code;
     }
+    
+    ############################
+    
+    /**
+     * prePersist method
+     * 
+     * @return $this
+     */
+    public function insertDate()
+    {
+        $this->createdAt = new \DateTime();
+        
+        return $this;
+    }
 }

@@ -2,7 +2,8 @@ AppBundle\Entity\CommentCode:
     type: entity
     table: null
     repositoryClass: AppBundle\Repository\CommentCodeRepository
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist: [ insertDate ]
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
@@ -20,6 +21,6 @@ AppBundle\Entity\CommentCode:
         code:
             targetEntity: AppBundle\Entity\Code
             joinColumn:
-                name: post_id
+                name: code_id
                 nullable: false
                 referencedColumnName: id

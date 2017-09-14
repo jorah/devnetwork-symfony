@@ -1,9 +1,7 @@
-{% extends 'AppBundle::layout.html.twig' %}
-
-{% block body %}
+    {# view is included in ComentCode show #}
     <h1>Commentcode creation</h1>
-
-    {{ form_start(form) }}
+    
+    {{ form_start(form, {'action': path('commentcode_new', {id: code_id}), 'method': 'POST'}) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
@@ -13,4 +11,4 @@
             <a href="{{ path('commentcode_index') }}">Back to the list</a>
         </li>
     </ul>
-{% endblock %}
+

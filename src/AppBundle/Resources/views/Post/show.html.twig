@@ -41,4 +41,10 @@
             {{ form_end(delete_form) }}
         </li>
     </ul>
+            
+    <div>
+        <code>display form new CommentCode if user is connected</code>
+        
+        {{ render(controller('AppBundle:CommentPost:new', {'id' : post.id })) }} 
+    </div>
 {% endblock %}
