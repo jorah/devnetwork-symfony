@@ -3,6 +3,54 @@ parameters:
     
 services:
     
+    code.manager:
+        class: AppBundle\Manager\CodeManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
+    comment_code.manager:
+        class: AppBundle\Manager\CommentCodeManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
+    comment_post.manager:
+        class: AppBundle\Manager\CommentPostManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
+    language.manager:
+        class: AppBundle\Manager\UserManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
+    post.manager:
+        class: AppBundle\Manager\PostManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
+    skill.manager:
+        class: AppBundle\Manager\SkillManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
+    tag.manager:
+        class: AppBundle\Manager\TagManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
+    theme.manager:
+        class: AppBundle\Manager\ThemeManager
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            
     user.manager:
         class: AppBundle\Manager\UserManager
         arguments:

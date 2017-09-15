@@ -4,6 +4,7 @@ AppBundle\Entity\CommentPost:
     repositoryClass: AppBundle\Repository\CommentPostRepository
     lifecycleCallbacks:
         prePersist: [ insertDate ]
+        
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:

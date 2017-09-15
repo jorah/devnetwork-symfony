@@ -3,6 +3,7 @@ AppBundle\Entity\Language:
     table: programming_languages
     repositoryClass: AppBundle\Repository\LanguageRepository
     lifecycleCallbacks: {  }
+    
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:

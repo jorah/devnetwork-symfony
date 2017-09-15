@@ -3,6 +3,7 @@ AppBundle\Entity\Skill:
     table: skill
     repositoryClass: AppBundle\Repository\SkillRepository
     lifecycleCallbacks: {  }
+    
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:

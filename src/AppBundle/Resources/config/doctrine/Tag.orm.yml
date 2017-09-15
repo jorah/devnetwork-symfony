@@ -4,6 +4,7 @@ AppBundle\Entity\Tag:
     repositoryClass: AppBundle\Repository\TagRepository
     lifecycleCallbacks:
         prePersist: [ insertDate ]
+        
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:

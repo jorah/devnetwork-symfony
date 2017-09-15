@@ -5,6 +5,7 @@ AppBundle\Entity\Post:
     lifecycleCallbacks:
         prePersist: [ insertDate ]
         preUpdate:  [ updateDate ]
+        
     id: {id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:

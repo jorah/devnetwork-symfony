@@ -1,7 +1,8 @@
 AppBundle\Entity\Theme:
     type: entity
-    table: null
+    table: theme
     repositoryClass: AppBundle\Repository\ThemeRepository
+    
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
     
     fields:
