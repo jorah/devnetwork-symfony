@@ -25,4 +25,11 @@ class LanguageManager extends ManagerModel
         $this->paginator = $paginator;
         $this->repository = $this->om->getRepository(Language::class);
     }
+    
+    public function findLanguages($page)
+    {
+        $criteria = [];
+        $qb = $this->repository->findLanguages($criteria);
+        return $this->paginator->paginate($qb, $page, 20, ['distinct' => false]);
+    }
 }

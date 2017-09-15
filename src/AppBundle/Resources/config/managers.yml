@@ -22,7 +22,7 @@ services:
             - '@knp_paginator'
             
     language.manager:
-        class: AppBundle\Manager\UserManager
+        class: AppBundle\Manager\LanguageManager
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@knp_paginator'

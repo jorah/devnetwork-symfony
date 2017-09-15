@@ -7,15 +7,15 @@
                 <div class="btn-group">
                     {%- set attrs = ['id'] %}
                     {%- for attr in attrs %}
-                    {{ knp_pagination_sortable(users, attr|capitalize, 'u.'~attr, {sort : users.isSorted('u.'~attr)}) }}
+                    {{ knp_pagination_sortable(entities, attr|capitalize, 'u.'~attr, {sort : entities.isSorted('u.'~attr)}) }}
                     {%- endfor %}
                 </div>
                 <div class="btn-group">
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <ul class="pagination">{{ knp_pagination_render(users) }} </ul>
+                    <ul class="pagination">{{ knp_pagination_render(entities) }} </ul>
                 </div>
                 <div class="btn-group">
-                    <span class="badge">{{ users.getTotalItemCount }}</span>
+                    <span class="badge">{{ entities.getTotalItemCount }}</span>
                 </div>
             </div>
         </div>
@@ -24,17 +24,11 @@
         <div class="col-md-10 col-md-offset-1">
             <table class="table">
                 <tbody>
-                    {%- for user in users %}
+                    {%- for entity in entities %}
                     <tr>
-                        <td>{{ user.username }}</td>
+                        <td>{{ entity.id }}</td>
                     </tr>
-                    <tr>
-                        <td>
-                            {%- for skill in user.skills %}
-                            {{ skill.id }}
-                            {%- endfor %}
-                        </td>
-                    </tr>
+                    
                     {%- endfor %}
                 </tbody>
             </table>

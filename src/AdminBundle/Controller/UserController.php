@@ -16,7 +16,7 @@ class UserController extends Controller
 {
 
     /**
-     * Lists all language entities.
+     * Lists all users entities.
      *
      * @Route("/users/{page}", name="admin_users", defaults={"page" = 1}, requirements={
      *  "page" = "\d+"
@@ -26,7 +26,7 @@ class UserController extends Controller
     public function indexAction($page)
     {
         return $this->render('AdminBundle:User:index.html.twig', [
-                    'users' => $this->get('user.manager')->findUsers($page, true)
+                    'entities' => $this->get('user.manager')->findUsers($page, true)
         ]);
     }
 

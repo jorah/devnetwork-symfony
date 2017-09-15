@@ -11,25 +11,23 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Language controller.
  *
- * @Route("language")
+ * @Route("admin")
  */
 class LanguageController extends Controller
 {
     /**
      * Lists all language entities.
      *
-     * @Route("/", name="language_index")
+     * @Route("/languages/{page}", name="admin_languages", defaults={"page" = 1}, requirements={
+     *  "page" = "\d+"
+     * })
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction($page)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $languages = $em->getRepository('AppBundle:Language')->findAll();
-
-        return $this->render('AppBundle:Language:index.html.twig', array(
-            'languages' => $languages,
-        ));
+        return $this->render('AdminBundle:Language:index.html.twig', [
+                    'entities' => $this->get('language.manager')->findLanguages($page)
+        ]);
     }
 
     /**

@@ -1,41 +1,40 @@
 {% extends 'AdminBundle::layout.html.twig' %}
 
 {% block body %}
-    <h1>Languages list</h1>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    {%- set attrs = ['id'] %}
+                    {%- for attr in attrs %}
+                    {{ knp_pagination_sortable(entities, attr|capitalize, 'l.'~attr, {sort : entities.isSorted('l.'~attr)}) }}
+                    {%- endfor %}
+                </div>
+                <div class="btn-group">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul class="pagination">{{ knp_pagination_render(entities) }} </ul>
+                </div>
+                <div class="btn-group">
+                    <span class="badge">{{ entities.getTotalItemCount }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-1">
+            <table class="table">
+                <tbody>
+                    {%- for entity in entities %}
+                    <tr>
+                        <td><a href="{{ entity.id }}">{{ entity.name }}</a></td>
+                    </tr>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Count</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for language in languages %}
-            <tr>
-                <td><a href="{{ path('language_show', { 'id': language.id }) }}">{{ language.id }}</a></td>
-                <td>{{ language.name }}</td>
-                <td>{{ language.count }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('language_show', { 'id': language.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('language_edit', { 'id': language.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('language_new') }}">Create a new language</a>
-        </li>
-    </ul>
+                    {%- endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-8">
+            
+        </div>
+    </div>
 {% endblock %}
