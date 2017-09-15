@@ -25,12 +25,8 @@ class UserController extends Controller
      */
     public function indexAction($page)
     {
-        $qbUsers = $this->get('user.manager')->findUsers(true);
-        $users = $this->get('knp_paginator')->paginate(
-                $qbUsers, $page, 1, ['distinct' => true]
-        );
         return $this->render('AdminBundle:User:index.html.twig', [
-                    'users' => $users
+                    'users' => $this->get('user.manager')->findUsers($page, true)
         ]);
     }
 
