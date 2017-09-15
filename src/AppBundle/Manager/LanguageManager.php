@@ -30,6 +30,10 @@ class LanguageManager extends ManagerModel
     {
         $criteria = [];
         $qb = $this->repository->findLanguages($criteria);
-        return $this->paginator->paginate($qb, $page, 20, ['distinct' => false]);
+        return $this->paginator->paginate($qb, $page, 20, [
+            'distinct' => false,
+            'defaultSortFieldName' => 'l.name',
+            'defaultSortDirection' => 'asc',
+            ]);
     }
 }

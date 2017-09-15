@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LanguageController extends Controller
 {
+
     /**
      * Lists all language entities.
      *
@@ -33,7 +34,7 @@ class LanguageController extends Controller
     /**
      * Creates a new language entity.
      *
-     * @Route("/new", name="language_new")
+     * @Route("/language/new", name="admin_language_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -41,80 +42,22 @@ class LanguageController extends Controller
         $language = new Language();
         $form = $this->createForm('AppBundle\Form\LanguageType', $language);
         $form->handleRequest($request);
+        
+//        if ($form->isSubmitted()) {
+//            if ($form->isValid()) {
+//                $em = $this->getDoctrine()->getManager();
+//                $em->persist($language);
+//                $em->flush();
+//                return $this->redirectToRoute('admin_languages');
+//            }
+//        }
+        
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($language);
-            $em->flush();
 
-            return $this->redirectToRoute('language_show', array('id' => $language->getId()));
-        }
-
-        return $this->render('AppBundle:Language:new.html.twig', array(
-            'language' => $language,
-            'form' => $form->createView(),
+        return $this->render('AdminBundle:Language:new.html.twig', array(
+                    'language' => $language,
+                    'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * Finds and displays a language entity.
-     *
-     * @Route("/{id}", name="language_show")
-     * @Method("GET")
-     */
-    public function showAction(Language $language)
-    {
-        $deleteForm = $this->createDeleteForm($language);
-
-        return $this->render('AppBundle:Language:show.html.twig', array(
-            'language' => $language,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing language entity.
-     *
-     * @Route("/{id}/edit", name="language_edit")
-     * @Method({"GET", "POST"})
-     */
-    public function editAction(Request $request, Language $language)
-    {
-        $deleteForm = $this->createDeleteForm($language);
-        $editForm = $this->createForm('AppBundle\Form\LanguageType', $language);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('language_edit', array('id' => $language->getId()));
-        }
-
-        return $this->render('AppBundle:Language:edit.html.twig', array(
-            'language' => $language,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a language entity.
-     *
-     * @Route("/{id}", name="language_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, Language $language)
-    {
-        $form = $this->createDeleteForm($language);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($language);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('language_index');
     }
 
     /**
@@ -127,9 +70,10 @@ class LanguageController extends Controller
     private function createDeleteForm(Language $language)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('language_delete', array('id' => $language->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('language_delete', array('id' => $language->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

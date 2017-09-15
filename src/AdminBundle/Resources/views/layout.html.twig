@@ -24,12 +24,9 @@
         {%- endblock %}
     </head>
     <body>
-            {%- block menu %}
-
-            {% include 'AdminBundle::menu.html.twig' with {'route' : app.request.attributes.get('_route')} %}
-
-            {%- endblock %}
+        {%- block menu %} {% include 'AdminBundle::menu.html.twig' with {'route' : app.request.attributes.get('_route')} %}{%- endblock %}
         <div class="container">
+            {%- block note %}{%- endblock %}
             {%- block body %}{%- endblock %}
         </div>
         {%- block javascripts %}{%- endblock %}

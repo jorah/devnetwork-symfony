@@ -53,7 +53,7 @@
         <code>display form "new CommentPost" if user is authenticated</code>
         <br />
         {%- if is_granted("ROLE_USER") %}
-        {{ render(controller('AppBundle:CommentPost:new', {'id' : post.id })) }}
+        {{ render(controller('AppBundle:CommentPost:new')) }}
         {%- else %}
         You need to be <a href="{{ path('fos_user_security_login') }}">logged</a>  to post a comment
         {%- endif %}

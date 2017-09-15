@@ -19,7 +19,7 @@ class UserController extends Controller
      * Lists all users entities.
      *
      * @Route("/users/{page}", name="admin_users", defaults={"page" = 1}, requirements={
-     *  "page" = "\d+"
+     *  "page" = "\d+",
      * })
      * @Method("GET")
      */
