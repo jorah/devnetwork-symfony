@@ -16,7 +16,6 @@ class UserManager extends ManagerModel
 {
     protected $om;
     protected $paginator;
-    
     protected $repository;
 
     public function __construct(Om $objectManager, Knp $paginator)
@@ -31,6 +30,48 @@ class UserManager extends ManagerModel
         $criteria = [];
         $qb = $this->repository->findUsers($criteria, $isAdmin);
         return $this->paginator->paginate($qb, $page, 20, ['distinct' => true]);
+    }
+
+    public function findShow($id)
+    {
+        
+    }
+
+    public function test($user)
+    {
+////        $user->addRole('ROLE_ADMIN');
+//        $user->addRole('ROLE_USER');
+//        $user->removeRole('ROLE_ADMIN');
+//        $this->om->flush();
+    }
+    
+    /**
+     * Promote/demode Admin role
+     * 
+     * @param User $user
+     * @param string $role
+     */
+    public function promoteUser(User $user, $role)
+    {
+        if ($role == 'admin') {
+            $user->addRole('ROLE_ADMIN');
+        } elseif ($role == 'user') {
+            $user->removeRole('ROLE_ADMIN');
+        }
+        $this->om->flush();
+    }
+    
+    public function deleteCode(User $user, $type)
+    {
+        if ($type == 'warning') {
+            $user->setStatus(1);
+            $this->om->flush();
+        } elseif ($type == 'info') {
+            $user->setStatus(0);
+            $this->om->flush();
+        } elseif ($type == 'danger') {
+            $this->deleteEntity($user);
+        }
     }
 
 }

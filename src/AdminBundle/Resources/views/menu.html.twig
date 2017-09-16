@@ -16,36 +16,20 @@
         <ul class="nav navbar-nav">
             <li><a class="disabled">|</a></li>
             <li><a href="{{ path('admin_users') }}">Users</a></li>
-            <li><a href="#">Codes</a></li>
-            <li><a href="#">Posts</a></li>
-            <li><a href="#">Comments</a></li>
+            <li><a href="{{ path('admin_codes') }}">Codes</a></li>
+            <li><a href="{{ path('admin_posts') }}">Posts</a></li>
+            <li><a href="{{ path('admin_comments', {'type': 'code'}) }}">Comments Code</a></li>
+            <li><a href="{{ path('admin_comments', {'type': 'post'}) }}">Comments Post</a></li>
             <li><a href="#">Tags</a></li>
             <li><a href="{{ path('admin_languages') }}">Languages</a></li>
             <li><a href="#">Skills</a></li>
             <li><a href="#">Themes</a></li>
 
-            {#            <li {% if route == 'applink_api_homepage' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_homepage') }}">Api</a></li>#}
-
-            
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a href="#">{{ app.user.username }}</a>
             </li>
-            {#<li {% if route == 'applink_api_testUrl' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_testUrl') }}">TestUrl</a></li>
-            <li {% if route == 'applink_api_testcURL' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_testcURL') }}">Test cURL</a></li>
-
-            {%- if twigHasApiService('api.app.explorer') %}
-            <li {% if route == 'applink_api_explorer' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_explorer') }}">Explorer</a></li>
-                {%- endif %}
-
-            {%- if twigHasApiService('api.app.parameter') %}
-            <li {% if route == 'applink_api_parameter' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_parameter') }}">Parameter</a></li>
-                {%- endif %}
-
-            {%- if twigHasApiService('api.app.log') %}
-            <li {% if route == 'applink_api_log' -%}class="active"{%- endif -%}><a href="{{ path('applink_api_log') }}">Log</a></li>
-                {%- endif %}#}
 
         </ul>
     </div>

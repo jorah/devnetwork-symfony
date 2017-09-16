@@ -1,13 +1,20 @@
-{% extends "AdminBundle:Language:new.html.twig" %}
+{% extends "AdminBundle::layout.html.twig" %}
+
+{%- block note %}
+<p class="text-info text-center"> Only Admin can manage insertion/deletion </p>
+{%- endblock %}
 
 {%- block body %}
 
 <h1>New</h1>
-{#
+
+<p>
+    Add a language matching the pattern <code>[-a-z0-9_]{1,64}</code>
+</p>
 {{ form_start(form) }}
 {{ form_widget(form) }}
 <input type="submit" value="Create" />
 {{ form_end(form) }}
 
-#}
+
 {%- endblock %}

@@ -1,0 +1,79 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{%- block body %}
+
+
+
+<div class="row">
+    <div class="col-md-5 col-md-offset-1">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>code #id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>username</th>
+                    <td>
+                        <a href="{{ entity.user.id }}">{{ entity.user.username }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>description</th>
+                    <td><em>{{ entity.description }}</em></td>
+                </tr>
+                <tr>
+                    <th>code</th>
+                    <td>{{ entity.content }}</td>
+                </tr>
+                <tr>
+                    <th>posted at </th>
+                    <td>{{ entity.createdAt|date('d-m-y H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>updated ad </th>
+                    <td>
+                        {%- if entity.updatedAt is not empty %}
+                        {{ entity.updatedAt|date('d-m-y H:i:s') }}
+                        {%- endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>language</th>
+                    <td>{{ entity.language.name }}</td>
+                </tr>
+                <tr>
+                    <th>tags</th>
+                    <td>
+                        {%- for tag in entity.tags %}
+                        <a href="">{{ tag.name }}</a>{%- if loop.last is same as(false) %}, {%- endif %}
+                        {%- endfor %}
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <div class="col-md-5 col-md-offset-1">
+            <form action="{{ path('admin_code_delete', {'type': 'danger', 'id': entity.id}) }}" method="POST">
+                <input type="hidden" name="_method" value="DELETE" />
+                <button type="submit" class="btn btn-danger">Real Delete</button>
+            </form>
+            
+            {%- if entity.status == 1  %}
+            <form action="{{ path('admin_code_delete', {'type': 'info', 'id': entity.id}) }}" method="POST">
+                <input type="hidden" name="_method" value="DELETE" />
+                <button type="submit" class="btn btn-info">Active</button>
+            </form>
+            {%- else %}
+            <form action="{{ path('admin_code_delete', {'type': 'warning', 'id': entity.id}) }}" method="POST">
+                <input type="hidden" name="_method" value="DELETE" />
+                <button type="submit" class="btn btn-warning">Soft Delete</button>
+            </form>
+            {%- endif %}
+        </div>
+    </div>
+</div>            
+
+{%- endblock %}

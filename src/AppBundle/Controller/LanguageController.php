@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LanguageController extends Controller
 {
+    
     /**
      * Lists all language entities.
      *

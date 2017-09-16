@@ -80,4 +80,50 @@ class Language
     {
         return $this->count;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $codes;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->codes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add code
+     *
+     * @param \AppBundle\Entity\Code $code
+     *
+     * @return Language
+     */
+    public function addCode(\AppBundle\Entity\Code $code)
+    {
+        $this->codes[] = $code;
+
+        return $this;
+    }
+
+    /**
+     * Remove code
+     *
+     * @param \AppBundle\Entity\Code $code
+     */
+    public function removeCode(\AppBundle\Entity\Code $code)
+    {
+        $this->codes->removeElement($code);
+    }
+
+    /**
+     * Get codes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCodes()
+    {
+        return $this->codes;
+    }
 }

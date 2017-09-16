@@ -33,6 +33,11 @@ class Post extends AbstractEntity
      * @var \DateTime
      */
     protected $updatedAt;
+    
+    /**
+     * @var boolean
+     */
+    private $status;
 
     /**
      * @var \AppBundle\Entity\User
@@ -157,6 +162,30 @@ class Post extends AbstractEntity
     {
         return $this->updatedAt;
     }
+    
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Post
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
     /**
      * Set user
@@ -216,4 +245,8 @@ class Post extends AbstractEntity
         return $this->tags;
     }
    
+    
+
+
+    
 }

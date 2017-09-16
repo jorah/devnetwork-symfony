@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Language controller.
  *
- * @Route("admin")
+ * @Route("/admin")
  */
 class LanguageController extends Controller
 {
@@ -19,47 +19,60 @@ class LanguageController extends Controller
     /**
      * Lists all language entities.
      *
-     * @Route("/languages/{page}", name="admin_languages", defaults={"page" = 1}, requirements={
-     *  "page" = "\d+"
-     * })
-     * @Method("GET")
+     * @Route("/languages", name="admin_languages")
+     * @Method({"GET", "POST"})
      */
-    public function indexAction($page)
+    public function indexAction(Request $request)
     {
+        $langMng =  $this->get('language.manager');
+        $language = new Language();
+        $form = $this->createForm('AppBundle\Form\LanguageType', $language);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($language);
+                $em->flush();
+            }
+        }
+
         return $this->render('AdminBundle:Language:index.html.twig', [
-                    'entities' => $this->get('language.manager')->findLanguages($page)
+                    'entities' => $langMng->findLanguagesByStat(),
+                    'language' => $language,
+                    'form' => $form->createView(),
+                    'delete_form' => $this->createDeleteForm($language)->createView()
         ]);
     }
 
     /**
-     * Creates a new language entity.
+     * Deletes a language entity.
      *
-     * @Route("/language/new", name="admin_language_new")
-     * @Method({"GET", "POST"})
+     * @Route("/language/{id}", name="admin_language_delete", requirements={
+     *  "id" = "\d+"
+     * })
+     * @Method("DELETE")
      */
-    public function newAction(Request $request)
-    {
-        $language = new Language();
-        $form = $this->createForm('AppBundle\Form\LanguageType', $language);
+    public function deleteAction(Request $request, Language $language)
+    {   
+        if($this->get('code.manager')->hasLanguage($language)){
+            $this->addFlash('danger', 'Some codes still using the language "'.$language->getName().'".');
+            return $this->redirectToRoute('admin_codes', ['language' => $language->getName()]);
+        }
+        
+        
+        $form = $this->createDeleteForm($language);
         $form->handleRequest($request);
-        
-//        if ($form->isSubmitted()) {
-//            if ($form->isValid()) {
-//                $em = $this->getDoctrine()->getManager();
-//                $em->persist($language);
-//                $em->flush();
-//                return $this->redirectToRoute('admin_languages');
-//            }
-//        }
-        
 
+        if ($form->isSubmitted()) {
+            $langMng =  $this->get('language.manager');
+            $langMng->removeEntity($language);
+            $this->addFlash('danger', 'programming languege "'.$language->getName().'" removed');
+        }
 
-        return $this->render('AdminBundle:Language:new.html.twig', array(
-                    'language' => $language,
-                    'form' => $form->createView(),
-        ));
+        return $this->redirectToRoute('admin_languages');
     }
-
+    
     /**
      * Creates a form to delete a language entity.
      *
@@ -70,10 +83,10 @@ class LanguageController extends Controller
     private function createDeleteForm(Language $language)
     {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('language_delete', array('id' => $language->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
+            ->setMethod('DELETE')
+            ->getForm()
         ;
     }
+
 
 }

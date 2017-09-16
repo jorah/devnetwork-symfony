@@ -4,5 +4,6 @@ parameters:
     #parameter_name: value
 
 services:
-    
+    sanitize_request:
+        class: AppBundle\Service\SanitizeRequest
     

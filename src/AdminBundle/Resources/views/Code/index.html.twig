@@ -1,0 +1,88 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{%- block body %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+                {%- set attrs = ['id'] %}
+                {%- for attr in attrs %}
+                {{ knp_pagination_sortable(entities, attr|capitalize, 'c.'~attr, {sort : entities.isSorted('a.'~attr)}) }}
+                {%- endfor %}
+            </div>
+            <div class="btn-group">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <ul class="pagination">{{ knp_pagination_render(entities) }} </ul>
+            </div>
+            <div class="btn-group">
+                <span class="badge">{{ entities.getTotalItemCount }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+            
+<div class="row">
+    <div class="col-md-12">
+        <p></p>
+        <form class="form-inline" action="{{ path('admin_codes') }}" method="GET">
+            <div class="form-group">
+                <label for="prog_language">Language</label>
+                <select class="form-control" id="prog_language" name="language">
+                    {{ options|raw }}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tags_in_code">Tags</label>
+                <input type="text" class="form-control" name="tags" id="tags_in_code" placeholder="tags ...">
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+        </form>
+        <p></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tbody>
+                {%- for entity in entities %}
+                <tr>
+                    <td>
+                        <a href="{{ path('admin_code', {'id': entity.id}) }}">{{ entity.title }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>{{ entity.content }}</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>
+                            language: <a href="">{{ entity.language.name }}</a>
+                        </p>
+                        <p>
+                            user: <a href="">{{ entity.user.username }}</a>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {%- if entity.status == 1 %}
+                        <span class="label label-danger">Removed</span>
+                        {%- else %}
+                        <span class="label label-info">Active</span>
+                        {%- endif %}
+                    </td>
+                </tr>
+                {%- endfor %}
+            </tbody>
+        </table>
+    </div>            
+</div>    
+            
+                
+
+{%- endblock %}

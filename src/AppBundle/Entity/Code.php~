@@ -2,10 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\AbstractEntity;
 /**
  * Code
  */
-class Code
+class Code extends AbstractEntity
 {
     /**
      * @var int
@@ -40,12 +41,17 @@ class Code
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
+    
+    /**
+     * @var boolean
+     */
+    private $status;
 
     /**
      * @var \AppBundle\Entity\Language
@@ -60,7 +66,7 @@ class Code
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $tags;
+    protected $tags;
 
     /**
      * Constructor
@@ -189,6 +195,30 @@ class Code
     {
         return $this->updatedAt;
     }
+    
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Code
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
     /**
      * Set language
@@ -197,7 +227,7 @@ class Code
      *
      * @return Code
      */
-    public function setLanguage(\AppBundle\Entity\Language $language = null)
+    public function setLanguage(\AppBundle\Entity\Language $language)
     {
         $this->language = $language;
 
@@ -221,7 +251,7 @@ class Code
      *
      * @return Code
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -270,5 +300,49 @@ class Code
     public function getTags()
     {
         return $this->tags;
+    }
+        
+    
+
+
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $comments;
+
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\CommentCode $comment
+     *
+     * @return Code
+     */
+    public function addComment(\AppBundle\Entity\CommentCode $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\CommentCode $comment
+     */
+    public function removeComment(\AppBundle\Entity\CommentCode $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

@@ -13,6 +13,7 @@ AppBundle\Entity\Post:
         content:        { type: string,     length: 1200  }
         createdAt:      { type: datetime }
         updatedAt:      { type: datetime,   nullable: true }
+        status:         { type: boolean,    nullable: true }
     
     manyToOne:
         user:
@@ -20,6 +21,7 @@ AppBundle\Entity\Post:
             joinColumn:
                 name: user_id
                 nullable: false
+                onDelete: CASCADE
                 referencedColumnName: id
     
     manyToMany:

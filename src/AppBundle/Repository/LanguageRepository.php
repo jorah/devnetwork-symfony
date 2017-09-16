@@ -20,4 +20,15 @@ class LanguageRepository extends RepositoryModel
         return $qb;
     }
 
+    public function getLanguagesStat()
+    {
+        return $this
+                        ->createQueryBuilder('l')
+                        ->leftJoin('l.codes', 'c')->addSelect('c')
+                        ->groupBy('l.id')
+                        ->select('l.id, l.name, COUNT(c.id) AS codeCount')
+                        ->orderBy('l.name', 'ASC')
+                        ->getQuery()->getArrayResult();
+    }
+
 }

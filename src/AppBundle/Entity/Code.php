@@ -47,6 +47,11 @@ class Code extends AbstractEntity
      * @var \DateTime
      */
     protected $updatedAt;
+    
+    /**
+     * @var boolean
+     */
+    private $status;
 
     /**
      * @var \AppBundle\Entity\Language
@@ -189,6 +194,30 @@ class Code extends AbstractEntity
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+    
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Code
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**

@@ -3,20 +3,18 @@ parameters:
     
 services:
     
+    #
+    # check if paginator is used
+    #
+    
     code.manager:
         class: AppBundle\Manager\CodeManager
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@knp_paginator'
             
-    comment_code.manager:
-        class: AppBundle\Manager\CommentCodeManager
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@knp_paginator'
-            
-    comment_post.manager:
-        class: AppBundle\Manager\CommentPostManager
+    comment.manager:
+        class: AppBundle\Manager\CommentManager
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@knp_paginator'

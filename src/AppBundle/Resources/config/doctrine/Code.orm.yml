@@ -14,16 +14,19 @@ AppBundle\Entity\Code:
         content:        { type: string,     length: 1200  }
         createdAt:      { type: datetime }
         updatedAt:      { type: datetime,                 nullable: true }
-    
+        status:         { type: boolean,                  nullable: true }
+            
     manyToOne:
         user:
             targetEntity: AppBundle\Entity\User 
             joinColumn:
                 name: user_id
                 nullable: false
+                onDelete: CASCADE
                 referencedColumnName: id
         language:
             targetEntity: AppBundle\Entity\Language
+            inversedBy: codes
             joinColumn:
                 name: language_id
                 nullable: false

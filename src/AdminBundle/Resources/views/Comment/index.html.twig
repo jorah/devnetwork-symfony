@@ -1,0 +1,61 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{%- block body %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+                {%- set attrs = ['id'] %}
+                {%- for attr in attrs %}
+                {{ knp_pagination_sortable(entities, attr|capitalize, 'c.'~attr, {sort : entities.isSorted('a.'~attr)}) }}
+                {%- endfor %}
+            </div>
+            <div class="btn-group">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <ul class="pagination">{{ knp_pagination_render(entities) }} </ul>
+            </div>
+            <div class="btn-group">
+                <span class="badge">{{ entities.getTotalItemCount }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tbody>
+                {%- for entity in entities %}
+                <tr>
+                    <td>
+                        {%- if type == 'code' %}
+                        <a href="{{ path('admin_code', {'id': entity.code.id}) }}">{{ entity.code.title }}</a>
+                        {%- elseif type == 'post' %}
+                        <a href="{{ path('admin_post', {'id': entity.post.id}) }}">{{ entity.post.title }}</a>
+                        {%- endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>{{ entity.content }}</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>
+                            user: <a href="">{{ entity.user.username }}</a>
+                        </p>
+                        <form action="{{ path('admin_comment_delete', {'type': type, 'id': entity.id}) }}" method="POST">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {%- endfor %}
+            </tbody>
+        </table>
+    </div>     
+</div>
+
+{%- endblock %}

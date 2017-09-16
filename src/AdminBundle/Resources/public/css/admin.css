@@ -16,5 +16,16 @@ ul.pagination{
     text-transform: capitalize;
 }
 
+.display_admin{
+    display: inline-block;
+    /*width: 210px;*/
+    margin: 4px;
+    padding: 6px;
+    border: 1px solid grey;
+}
+.display_admin form{
+    display: inline-block;
+}
+
 
 

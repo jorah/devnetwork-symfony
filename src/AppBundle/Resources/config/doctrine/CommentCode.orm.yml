@@ -18,10 +18,12 @@ AppBundle\Entity\CommentCode:
             joinColumn:
                 name: user_id
                 nullable: false
+                onDelete: CASCADE
                 referencedColumnName: id
         code:
             targetEntity: AppBundle\Entity\Code
             joinColumn:
                 name: code_id
                 nullable: false
+                onDelete: CASCADE
                 referencedColumnName: id

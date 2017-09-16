@@ -9,3 +9,9 @@ AppBundle\Entity\Language:
     fields:
         name:   { type: string,     length: 65,  unique: true }
         count:  { type: integer,    nullable: true }
+        
+    oneToMany:
+        codes:
+            targetEntity: AppBundle\Entity\Code
+            mappedBy: language
+            

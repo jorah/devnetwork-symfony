@@ -1,0 +1,92 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+
+{%- block body %}
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td>{{ entity.username }}</td>
+                </tr>
+                <tr>
+                    <th>Firstname</th>
+                    <td>{{ entity.firstname }}</td>
+                </tr>
+                <tr>
+                    <th>Lastname</th>
+                    <td>{{ entity.lastname }}</td>
+                </tr>
+                <tr>
+                    <th>Created at</th>
+                    <td>{{ entity.createdAt|date('d-m-y H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Updated at</th>
+                    <td>{{ entity.createdAt|date('d-m-y H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        {%- if entity.status == 1 %}
+                        <span class="label label-danger">Removed</span>
+                        {%- else %}
+                        <span class="label label-info">Active</span>
+                        {%- endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <ul class="list-group">
+            <li class="list-group-item">
+                Roles
+            </li>
+            {%- for role in entity.roles %}
+            <li class="list-group-item">
+                {{ role }}
+            </li>
+            {%- endfor %}
+
+        </ul>
+
+        {%- if entity.hasRole('ROLE_ADMIN') %}
+        <form action="{{ path('admin_user_role', {'id': entity.id, 'role': 'user'}) }}" method="POST">
+            <button>Remove ROLE_ADMIN</button>
+        </form>
+        {%- else %}
+        <form action="{{ path('admin_user_role', {'id': entity.id, 'role': 'admin'}) }}" method="POST">
+            <button>Add ROLE_ADMIN</button>
+        </form>
+        {%- endif %}
+
+        <hr />
+
+        <form action="{{ path('admin_user_delete', {'type': 'danger', 'id': entity.id}) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-danger">Real Delete</button>
+        </form>
+  
+        {%- if entity.status == 1  %}
+        <form action="{{ path('admin_user_delete', {'type': 'info', 'id': entity.id}) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-info">Active</button>
+        </form>
+        {%- else %}
+        <form action="{{ path('admin_user_delete', {'type': 'warning', 'id': entity.id}) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-warning">Soft Delete</button>
+        </form>
+        {%- endif %}
+
+
+    </div>
+</div>
+
+{%- endblock %}

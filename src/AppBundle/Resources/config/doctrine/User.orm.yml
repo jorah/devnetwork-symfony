@@ -53,7 +53,7 @@ AppBundle\Entity\User:
                     code_id:
                         referencedColumnName: id
                         nullable: false
-                        onDelete: RESTRICT
+                        onDelete: CASCADE
         favPost:
             targetEntity: AppBundle\Entity\Post
             joinTable:
@@ -67,4 +67,4 @@ AppBundle\Entity\User:
                     post_id:
                         referencedColumnName: id
                         nullable: false
-                        onDelete: RESTRICT
+                        onDelete: CASCADE
