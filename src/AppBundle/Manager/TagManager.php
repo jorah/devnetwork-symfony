@@ -25,4 +25,21 @@ class TagManager extends ManagerModel
         $this->paginator = $paginator;
         $this->repository = $this->om->getRepository(Tag::class);
     }
+    
+    /**
+     * Find tag entites by criteria
+     * 
+     * @param int $page
+     * @param array $criteria
+     * 
+     * @return ArrayCollection entities paginated
+     */
+    public function findTags($page = 1, array $criteria = [])
+    {
+        $qb = $this->repository->findTags($criteria);
+
+        $entities = $this->paginator->paginate($qb, $page, 20, ['distinct' => false]);
+
+        return $entities;
+    }
 }

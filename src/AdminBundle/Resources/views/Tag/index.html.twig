@@ -20,7 +20,7 @@
                     <td>{{ entity.id }}</td>
                     <td>{{ entity.name }}</td>       
                     <td>
-                        {{ form_start(delete_form, { 'action': path('admin_theme_delete', { 'id': entity.id })}) }}
+                        {{ form_start(delete_form, { 'action': path('admin_tag_delete', { 'id': entity.id })}) }}
                         {{ form_widget(delete_form) }}
                         <button type="submit" class="btn btn-xs btn-danger">Delete</button>
                         {{ form_end(delete_form) }}

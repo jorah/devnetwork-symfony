@@ -2,25 +2,25 @@
 
 namespace AdminBundle\Controller;
 
-use AppBundle\Entity\Theme;
+use AppBundle\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\ThemeType;
+use AppBundle\Form\TagType;
 
 /**
- * Description of ThemeController
+ * Description of TagController
  *
  * @Route("/admin")
  */
-class ThemeController extends Controller
+class TagController extends Controller
 {
 
     /**
-     * Lists all themes entities
+     * Lists all tags entities
      * 
-     * @Route("/themes/{page}", name="admin_themes", defaults={"page" = 1}, requirements={
+     * @Route("/tags/{page}", name="admin_tags", defaults={"page" = 1}, requirements={
      *  "page" = "\d+"
      * })
      * @Method({"GET", "POST"})
@@ -31,28 +31,28 @@ class ThemeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $themeMng = $this->get('theme.manager');
-        $theme = new Theme();
+        $tagMng = $this->get('tag.manager');
+        $tag = new Tag();
 
-        $form = $this->createForm(ThemeType::class, $theme);
+        $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $themeMng->persist($theme)->flush();
-            return $this->redirectToRoute('admin_themes');
+            $tagMng->persist($tag)->flush();
+            return $this->redirectToRoute('admin_tags');
         }
 
-        return $this->render('AdminBundle:Theme:index.html.twig', [
-                    'entities' => $themeMng->findThemes(),
+        return $this->render('AdminBundle:Tag:index.html.twig', [
+                    'entities' => $tagMng->findTags(),
                     'form' => $form->createView(),
                     'delete_form' => $this->createDeleteForm()->createView(),
         ]);
     }
 
     /**
-     * Deletes a theme entity.
+     * Deletes a tag entity.
      *
-     * @Route("/theme/{id}/delete", name="admin_theme_delete", requirements={
+     * @Route("/tag/{id}/delete", name="admin_tag_delete", requirements={
      *  "id" = "\d+"
      * })
      * @Method("DELETE")
@@ -62,20 +62,23 @@ class ThemeController extends Controller
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Request $request, Theme $theme)
+    public function deleteAction(Request $request, Tag $tag)
     {
-        $form = $this->createDeleteForm($theme);
+        $form = $this->createDeleteForm($tag);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('theme.manager')->deleteEntity($theme);
-            $this->addFlash('danger', 'theme "' . $theme->getName() . '" removed');
+            $this->get('tag.manager')->deleteEntity($tag);
+            $this->addFlash('danger', 'tag "' . $tag->getName() . '" removed');
+        }else{
+//            dump($form->getErrors());
+//            exit;
         }
 
-        return $this->redirectToRoute('admin_themes');
+        return $this->redirectToRoute('admin_tags');
     }
 
     /**
-     * Creates a form to delete a theme entity.
+     * Creates a form to delete a tag entity.
      *
      * @return \Symfony\Component\Form\Form The form
      */
