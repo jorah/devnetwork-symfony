@@ -1,0 +1,35 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{%- block body %}
+
+<div class="row">
+    <div class="col-md-12">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tbody>
+                {%- for entity in entities %}
+                <tr>
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity.name }}</td>       
+                    <td>
+                        {{ form_start(delete_form, { 'action': path('admin_theme_delete', { 'id': entity.id })}) }}
+                        {{ form_widget(delete_form) }}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        {{ form_end(delete_form) }}
+                    </td>
+                </tr>
+                {%- endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{%- endblock %}

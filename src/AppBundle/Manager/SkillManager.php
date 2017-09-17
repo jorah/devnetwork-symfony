@@ -23,9 +23,10 @@ class SkillManager extends ManagerModel
     public function __construct(Om $objectManager, Knp $paginator, $path)
     {
         $this->om = $objectManager;
+        $this->class_entity = Skill::class;
         $this->skill_path = $path;
         $this->paginator = $paginator;
-        $this->repository = $this->om->getRepository(Skill::class);
+        $this->repository = $this->om->getRepository($this->class_entity);
     }
 
     /**
@@ -41,12 +42,11 @@ class SkillManager extends ManagerModel
         return $this->repository->findSkills($criteria);
     }
 
-    public function save(Skill $skill)
-    {
-        $this->om->persist($skill);
-        $this->om->flush();
-    }
-
+    /**
+     * Remove a skill entity with image
+     * 
+     * @param Skill $skill
+     */
     public function removeEntity(Skill $skill)
     {
         if (!empty($skill->getImage())) {

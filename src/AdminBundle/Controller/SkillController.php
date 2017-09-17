@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\SkillType;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Description of SkillController
@@ -41,7 +40,7 @@ class SkillController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $fileUploader = $this->get('file_uploader')->set('skill');
             $skill->setImage($fileUploader->upload($skill->getImage()));
-            $skillMng->save($skill);
+            $skillMng->persist($skill)->flush();
             return $this->redirectToRoute('admin_skills');
         }
 
@@ -77,7 +76,7 @@ class SkillController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $skill->setImage($fileUploader->upload($skill->getImage()));
-            $skillMng->save($skill);
+            $skillMng->flush();
 
             return $this->redirectToRoute('admin_skills');
         }

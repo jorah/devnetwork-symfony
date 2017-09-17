@@ -16,13 +16,22 @@ class ThemeManager extends ManagerModel
 {
     protected $om;
     protected $paginator;
-    
+    protected $class_entity;
     protected $repository;
 
     public function __construct(Om $objectManager, Knp $paginator)
     {
         $this->om = $objectManager;
+        $this->class_entity = Theme::class;
         $this->paginator = $paginator;
-        $this->repository = $this->om->getRepository(Theme::class);
+        $this->repository = $this->om->getRepository($this->class_entity);
     }
+    
+    public function findThemes()
+    {
+        return $this->repository->findBy([], ['name' => 'ASC']);
+    }
+    
+    
+    
 }

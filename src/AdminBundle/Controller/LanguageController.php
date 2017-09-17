@@ -34,7 +34,7 @@ class LanguageController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $langMng->save($language);
+            $langMng->persist($language)->flush();
             $this->addFlash('success', 'Le language "'.$language->getName().'" a été ajouté');
         }
 
@@ -42,7 +42,7 @@ class LanguageController extends Controller
                     'entities' => $langMng->findLanguagesByStat(),
                     'language' => $language,
                     'form' => $form->createView(),
-                    'delete_form' => $this->createDeleteForm($language)->createView()
+                    'delete_form' => $this->createDeleteForm()->createView()
         ]);
     }
 
@@ -72,7 +72,7 @@ class LanguageController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $langMng = $this->get('language.manager');
-            $langMng->removeEntity($language);
+            $langMng->deleteEntity($language);
             $this->addFlash('danger', 'programming languege "' . $language->getName() . '" removed');
         }
 
@@ -86,7 +86,7 @@ class LanguageController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Language $language)
+    private function createDeleteForm()
     {
         return $this->createFormBuilder()
                         ->setMethod('DELETE')

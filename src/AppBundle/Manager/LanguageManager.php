@@ -38,22 +38,6 @@ class LanguageManager extends ManagerModel
         return $this->repository->getLanguagesStat();
     }
 
-    public function save(Language $language)
-    {
-        $this->om->persist($language);
-        $this->om->flush();
-    }
-
-    /**
-     * Remove a Language entity
-     * 
-     * @param Language $entity
-     */
-    public function removeEntity(Language $language)
-    {
-        $this->deleteEntity($language, true);
-    }
-
     public function showOption($selected = null)
     {
 

@@ -65,14 +65,5 @@ class CommentManager extends ManagerModel
         return $entities;
     }
 
-    public function deleteComment($id)
-    {
-        $comment = $this->repository->find($id);
-        if(!$comment){
-            return false;
-        }
-        $this->deleteEntity($comment);
-        return true;
-    }
 
 }

@@ -73,7 +73,7 @@ class CommentController extends Controller
         $form = $this->createDeleteForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $status = $this->get('comment.manager')->set($type)->deleteComment($id);
+            $status = $this->get('comment.manager')->set($type)->deleteEntity($id);
             if (!$status) {
                 return $this->createNotFoundException('Commentaire #' . $id . ' (' . $type . ') non trouvé');
             }
