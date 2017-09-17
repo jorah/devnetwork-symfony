@@ -56,34 +56,36 @@
 
         </ul>
 
-        {%- if entity.hasRole('ROLE_ADMIN') %}
-        <form action="{{ path('admin_user_role', {'id': entity.id, 'role': 'user'}) }}" method="POST">
-            <button>Remove ROLE_ADMIN</button>
-        </form>
-        {%- else %}
-        <form action="{{ path('admin_user_role', {'id': entity.id, 'role': 'admin'}) }}" method="POST">
-            <button>Add ROLE_ADMIN</button>
-        </form>
-        {%- endif %}
+        {% if entity.hasRole('ROLE_ADMIN') %}
+            {{ form_start(demote_form) }}
+            {{ form_widget(demote_form) }}
+            <button type="submit" class="btn btn-danger">Remove ROLE_ADMIN</button>
+            {{ form_end(demote_form) }}
+        {% else %}
+            {{ form_start(promote_form) }}
+            {{ form_widget(promote_form) }}
+            <button type="submit" class="btn btn-success">Add ROLE_ADMIN</button>
+            {{ form_end(promote_form) }}
+        {% endif %}
 
         <hr />
 
-        <form action="{{ path('admin_user_delete', {'type': 'danger', 'id': entity.id}) }}" method="POST">
-            <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit" class="btn btn-danger">Real Delete</button>
-        </form>
-  
-        {%- if entity.status == 1  %}
-        <form action="{{ path('admin_user_delete', {'type': 'info', 'id': entity.id}) }}" method="POST">
-            <input type="hidden" name="_method" value="DELETE" />
+        {{ form_start(deleteHard_form) }}
+        {{ form_widget(deleteHard_form) }}
+        <button type="submit" class="btn btn-danger">Real Delete</button>
+        {{ form_end(deleteHard_form) }}
+
+        {% if entity.status == 1  %}
+            {{ form_start(active_form) }}
+            {{ form_widget(active_form) }}
             <button type="submit" class="btn btn-info">Active</button>
-        </form>
-        {%- else %}
-        <form action="{{ path('admin_user_delete', {'type': 'warning', 'id': entity.id}) }}" method="POST">
-            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_end(active_form) }}
+        {% else %}
+            {{ form_start(deleteSoft_form) }}
+            {{ form_widget(deleteSoft_form) }}
             <button type="submit" class="btn btn-warning">Soft Delete</button>
-        </form>
-        {%- endif %}
+            {{ form_end(deleteSoft_form) }}
+        {% endif %}
 
 
     </div>

@@ -48,7 +48,7 @@
     </div>
     <div>
         <div class="col-md-5 col-md-offset-1">
-            <form action="{{ path('admin_code_delete', {'type': 'danger', 'id': entity.id}) }}" method="POST">
+           {# <form action="{{ path('admin_code_delete', {'type': 'danger', 'id': entity.id}) }}" method="POST">
                 <input type="hidden" name="_method" value="DELETE" />
                 <button type="submit" class="btn btn-danger">Real Delete</button>
             </form>
@@ -63,7 +63,23 @@
                 <input type="hidden" name="_method" value="DELETE" />
                 <button type="submit" class="btn btn-warning">Soft Delete</button>
             </form>
-            {%- endif %}
+            {%- endif %}#}
+           {{ form_start(deleteHard_form) }}
+            {{ form_widget(deleteHard_form) }}
+            <button type="submit" class="btn btn-danger">Real Delete</button>
+            {{ form_end(deleteHard_form) }}
+
+            {% if entity.status == 1  %}
+                {{ form_start(active_form) }}
+                {{ form_widget(active_form) }}
+                <button type="submit" class="btn btn-info">Active</button>
+                {{ form_end(active_form) }}
+            {% else %}
+                {{ form_start(deleteSoft_form) }}
+                {{ form_widget(deleteSoft_form) }}
+                <button type="submit" class="btn btn-warning">Soft Delete</button>
+                {{ form_end(deleteSoft_form) }}
+            {% endif %}
         </div>
     </div>
 </div>    

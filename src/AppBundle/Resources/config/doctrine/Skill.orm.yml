@@ -8,3 +8,4 @@ AppBundle\Entity\Skill:
     
     fields:
         name:   { type: string,     length: 65,  unique: true }
+        image:  { type: string,     length: 65,  nullable: true }

@@ -1,9 +1,15 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-    #parameter_name: value
+    skill_path: '%kernel.project_dir%/web/skill'
+    avatar_path: '%kernel.project_dir%/web/avatar'
 
 services:
     sanitize_request:
         class: AppBundle\Service\SanitizeRequest
+        
+    file_uploader:
+        class: AppBundle\Service\FileUploader
+        arguments:
+            - ['%skill_path%', '%avatar_path%']
     

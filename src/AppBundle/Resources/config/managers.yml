@@ -36,6 +36,7 @@ services:
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@knp_paginator'
+            - '%skill_path%'
             
     tag.manager:
         class: AppBundle\Manager\TagManager
@@ -54,3 +55,4 @@ services:
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@knp_paginator'
+            - '%avatar_path%'

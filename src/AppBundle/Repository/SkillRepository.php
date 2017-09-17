@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class SkillRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findSkills(array $criteria)
+    {
+        $qb = $this->createQueryBuilder('s');
+        
+        return $qb->getQuery()->getResult();
+    }
+
 }

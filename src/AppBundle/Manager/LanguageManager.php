@@ -38,28 +38,30 @@ class LanguageManager extends ManagerModel
         return $this->repository->getLanguagesStat();
     }
 
+    public function save(Language $language)
+    {
+        $this->om->persist($language);
+        $this->om->flush();
+    }
+
     /**
      * Remove a Language entity
      * 
      * @param Language $entity
      */
-    public function removeEntity(Language $entity)
+    public function removeEntity(Language $language)
     {
-        $this->deleteEntity($entity, true);
+        $this->deleteEntity($language, true);
     }
-    
+
     public function showOption($selected = null)
-    {       
-        
+    {
+
         $options = $this->findByOption([])->getQuery()->getArrayResult();
         $data = '<option></option>';
-        foreach ($options as $key => $option){
-            $data .= '<option value="'.$option['name'].'"'.($selected == $option['name'] ? ' selected' : null).'>'.$option['name'].'</option>';
+        foreach ($options as $key => $option) {
+            $data .= '<option value="' . $option['name'] . '"' . ($selected == $option['name'] ? ' selected' : null) . '>' . $option['name'] . '</option>';
         }
-   
-
-
-
         return $data;
     }
 

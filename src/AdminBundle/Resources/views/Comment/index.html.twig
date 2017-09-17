@@ -46,10 +46,10 @@
                         <p>
                             user: <a href="">{{ entity.user.username }}</a>
                         </p>
-                        <form action="{{ path('admin_comment_delete', {'type': type, 'id': entity.id}) }}" method="POST">
-                            <input type="hidden" name="_method" value="DELETE" />
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        {{ form_start(delete_form, { 'action': path('admin_comment_delete', { 'id': entity.id, 'type': type })}) }}
+                        {{ form_widget(delete_form) }}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        {{ form_end(delete_form) }}
                     </td>
                 </tr>
                 {%- endfor %}

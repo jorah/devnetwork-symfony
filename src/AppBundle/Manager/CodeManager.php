@@ -50,7 +50,7 @@ class CodeManager extends ManagerModel
      * 
      * @param int $id
      * 
-     * @return Code
+     * @return null|Code
      */
     public function showCode($id)
     {

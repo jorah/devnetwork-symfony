@@ -2,11 +2,11 @@
 
 namespace AdminBundle\Controller;
 
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\User;
 
 /**
  * Description of UserManager
@@ -23,36 +23,50 @@ class UserController extends Controller
      *  "page" = "\d+",
      * })
      * @Method("GET")
+     * 
+     * @param int $page
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction($page)
     {
         return $this->render('AdminBundle:User:index.html.twig', [
-                    'entities' => $this->get('user.manager')->findUsers($page, true)
+                    'entities' => $this->get('user.manager')->findUsers($page, true),
         ]);
     }
 
     /**
      * Display a code entity with related entities
      * 
-     * @Route("/user/{id}", name="admin_user", requirements={
+     * @Route("/user/{id}/edit", name="admin_user", requirements={
      *      "id" = "\d+"
      * })
      * @Method("GET")
      * 
-     * @return Response
+     * @param int $id
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction(User $user)
+    public function editAction($id)
     {
-        $this->get('user.manager')->test($user);
 
+        $user = $this->get('user.manager')->showUser($id);
+        if (!$user) {
+            return $this->createNotFoundException('User entity #' . $id . ' not found');
+        }
 
-        return $this->render('AdminBundle:User:show.html.twig', [
-                    'entity' => $user
+        return $this->render('AdminBundle:User:edit.html.twig', [
+                    'entity' => $user,
+                    'deleteHard_form' => $this->createDeleteForm($user, 'danger')->createView(),
+                    'deleteSoft_form' => $this->createDeleteForm($user, 'warning')->createView(),
+                    'active_form' => $this->createDeleteForm($user, 'info')->createView(),
+                    'promote_form' => $this->createPromoteForm($user, 'admin')->createView(),
+                    'demote_form' => $this->createPromoteForm($user, 'user')->createView()
         ]);
     }
 
     /**
-     * Display a code entity with related entities
+     * Promote/Demote an user
      * 
      * @Route("/user/{id}/role/{role}", name="admin_user_role", requirements={
      *      "id" = "\d+",
@@ -60,43 +74,93 @@ class UserController extends Controller
      * })
      * @Method("POST")
      * 
-     * @return Response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param int $id
+     * @param string $role
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function updateRole(User $user, $role)
+    public function updateRole(Request $request, User $user, $role)
     {
-//        $this->get('user.manager')->promoteUser($user, $role);
-
-        dump($user);
-        exit;
-//        $this->get('user.manager')->test($user);
-
+        $form = $this->createPromoteForm($user, $role);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('user.manager')->promoteUser($user, $role);
+        }
+        
         return $this->redirectToRoute('admin_user', ['id' => $user->getId()]);
     }
 
     /**
-     * Delete a code entity
+     * Delete(Hard/Soft) or activate an user entity
      * 
-     * @Route("/user/delete/{type}/{id}", name="admin_user_delete", requirements={
+     * @Route("/user/{id}/delete/{type}", name="admin_user_delete", requirements={
      *      "id" = "\d+",
      *      "type" = "danger|warning|info",
      * })
      * @Method("DELETE")
      * 
-     * @param string $type
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $id
+     * @param string $type
      * 
-     * @return Redirect
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction($type, User $user)
+    public function deleteAction(Request $request, User $user, $type)
     {
-        $this->get('user.manager')->deleteCode($user, $type);
-        $this->addFlash($type, 'Code #' . $user->getId() . ' ' . ($type == 'info' ? 'activé.' : 'supprimé.'));
+
+        $form = $this->createDeleteForm($user, $type);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('user.manager')->deleteCode($user, $type);
+            $this->addFlash($type, 'Code #' . $user->getId() . ' ' . ($type == 'info' ? 'activé.' : 'supprimé.'));
+        }
 
         if ($type == 'danger') {
             return $this->redirectToRoute('admin_users');
         } else {
             return $this->redirectToRoute('admin_user', ['id' => $user->getId()]);
         }
+    }
+
+    /**
+     * Creates a form to delete or activate an user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @param string $type
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(User $user, $type)
+    {
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl('admin_user_delete', [
+                                    'id' => $user->getId(),
+                                    'type' => $type
+                        ]))
+                        ->setMethod('DELETE')
+                        ->getForm()
+        ;
+    }
+
+    /**
+     * Creates a form to promote or demote an user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @param string $role
+     *
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createPromoteForm(User $user, $role)
+    {
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl('admin_user_role', [
+                                    'id' => $user->getId(),
+                                    'role' => $role
+                        ]))
+                        ->setMethod('POST')
+                        ->getForm()
+        ;
     }
 
 }

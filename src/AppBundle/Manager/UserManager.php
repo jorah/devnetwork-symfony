@@ -32,17 +32,16 @@ class UserManager extends ManagerModel
         return $this->paginator->paginate($qb, $page, 20, ['distinct' => true]);
     }
 
-    public function findShow($id)
+    /**
+     * Get a user entity with related entities
+     * 
+     * @param int $id
+     * 
+     * @return null|User
+     */
+    public function showUser($id)
     {
-        
-    }
-
-    public function test($user)
-    {
-////        $user->addRole('ROLE_ADMIN');
-//        $user->addRole('ROLE_USER');
-//        $user->removeRole('ROLE_ADMIN');
-//        $this->om->flush();
+        return $this->repository->findShow($id);
     }
     
     /**

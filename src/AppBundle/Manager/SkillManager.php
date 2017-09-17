@@ -15,14 +15,47 @@ use AppBundle\Entity\Skill;
 class SkillManager extends ManagerModel
 {
     protected $om;
+    protected $class_entity;
     protected $paginator;
-    
     protected $repository;
+    protected $skill_path;
 
-    public function __construct(Om $objectManager, Knp $paginator)
+    public function __construct(Om $objectManager, Knp $paginator, $path)
     {
         $this->om = $objectManager;
+        $this->skill_path = $path;
         $this->paginator = $paginator;
         $this->repository = $this->om->getRepository(Skill::class);
     }
+
+    /**
+     * Find skills entites
+     * 
+     * @param int $page
+     * @param array $criteria
+     * 
+     * @return ArrayCollection entities paginated
+     */
+    public function findSkills(array $criteria = [])
+    {
+        return $this->repository->findSkills($criteria);
+    }
+
+    public function save(Skill $skill)
+    {
+        $this->om->persist($skill);
+        $this->om->flush();
+    }
+
+    public function removeEntity(Skill $skill)
+    {
+        if (!empty($skill->getImage())) {
+            $path = $this->skill_path . '/' . $skill->getImage();
+            if(true === file_exists($path)){
+                unlink($path);
+            }
+        }
+        $this->deleteEntity($skill);
+    }
+
 }

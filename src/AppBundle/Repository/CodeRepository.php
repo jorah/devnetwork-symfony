@@ -14,6 +14,7 @@ class CodeRepository extends RepositoryModel
 {
 
     /**
+     * Find codes entities filtered by criteria
      * 
      * @param array $criteria
      * 
@@ -44,7 +45,7 @@ class CodeRepository extends RepositoryModel
      * 
      * @param int $id
      * 
-     * @return null|QueryBuilder
+     * @return null|Code
      */
     public function findShow($id)
     {

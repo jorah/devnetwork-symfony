@@ -12,7 +12,6 @@ class Skill
      */
     private $id;
 
-
     /**
      * Get id
      *
@@ -22,11 +21,16 @@ class Skill
     {
         return $this->id;
     }
+
     /**
      * @var string
      */
     private $name;
 
+    /**
+     * @var string
+     */
+    private $image;
 
     /**
      * Set name
@@ -51,4 +55,29 @@ class Skill
     {
         return $this->name;
     }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Skill
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
 }

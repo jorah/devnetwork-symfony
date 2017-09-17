@@ -59,20 +59,20 @@ class PostManager extends ManagerModel
     /**
      * Delete a post entity
      * 
-     * @param Post $code
+     * @param Post $post
      * 
      * @param string $type
      */
-    public function deleteCode(Post $code, $type)
+    public function deletePost(Post $post, $type)
     {
         if ($type == 'warning') {
-            $code->setStatus(1);
+            $post->setStatus(1);
             $this->om->flush();
         } elseif ($type == 'info') {
-            $code->setStatus(0);
+            $post->setStatus(0);
             $this->om->flush();
         } elseif ($type == 'danger') {
-            $this->deleteEntity($code);
+            $this->deleteEntity($post);
         }
     }
 

@@ -23,6 +23,11 @@ class CodeController extends Controller
      *  "page" = "\d+"
      * })
      * @Method("GET")
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param int $page
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request, $page)
     {
@@ -47,49 +52,79 @@ class CodeController extends Controller
     /**
      * Display a code entity with related entities
      * 
-     * @Route("/code/{id}", name="admin_code", requirements={
+     * @Route("/code/{id}/edit", name="admin_code", requirements={
      *      "id" = "\d+"
      * })
      * @Method("GET")
      * 
-     * @return Response
+     * @param int $id
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction($id)
+    public function editAction($id)
     {
-        $entity = $this->get('code.manager')->showCode($id);
-        if (!$entity) {
+        $code = $this->get('code.manager')->showCode($id);
+        if (!$code) {
             return $this->createNotFoundException('Code entity #' . $id . ' not found');
         }
 
-        return $this->render('AdminBundle:Code:show.html.twig', [
-                    'entity' => $entity
+        return $this->render('AdminBundle:Code:edit.html.twig', [
+                    'entity' => $code,
+                    'deleteHard_form' => $this->createDeleteForm($code, 'danger')->createView(),
+                    'deleteSoft_form' => $this->createDeleteForm($code, 'warning')->createView(),
+                    'active_form' => $this->createDeleteForm($code, 'info')->createView(),
         ]);
     }
 
     /**
      * Delete a code entity
      * 
-     * @Route("/code/delete/{type}/{id}", name="admin_code_delete", requirements={
+     * @Route("/code/{id}/delete/{type}", name="admin_code_delete", requirements={
      *      "id" = "\d+",
      *      "type" = "danger|warning|info",
      * })
      * @Method("DELETE")
      * 
-     * @param string $type
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $id
+     * @param string $type
      * 
-     * @return Redirect
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction($type, Code $code)
+    public function deleteAction(Request $request, Code $code, $type)
     {
-        $this->get('code.manager')->deleteCode($code, $type);
-        $this->addFlash($type, 'Code #' . $code->getId() . ' '.($type == 'info' ? 'activé.' : 'supprimé.'));
-        
-        if($type == 'danger'){
-        return $this->redirectToRoute('admin_codes');
-        } else{
+        $form = $this->createDeleteForm($code, $type);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('code.manager')->deleteCode($code, $type);
+            $this->addFlash($type, 'Code #' . $code->getId() . ' ' . ($type == 'info' ? 'activé.' : 'supprimé.'));
+        }
+
+        if ($type == 'danger') {
+            return $this->redirectToRoute('admin_codes');
+        } else {
             return $this->redirectToRoute('admin_code', ['id' => $code->getId()]);
         }
+    }
+
+    /**
+     * Creates a form to delete or activate a code entity
+     *
+     * @param \AppBundle\Entity\Code $code
+     * @param string $type
+     *
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createDeleteForm(Code $code, $type)
+    {
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl('admin_code_delete', [
+                                    'id' => $code->getId(),
+                                    'type' => $type
+                        ]))
+                        ->setMethod('DELETE')
+                        ->getForm()
+        ;
     }
 
 }

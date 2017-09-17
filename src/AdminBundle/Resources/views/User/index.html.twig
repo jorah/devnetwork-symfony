@@ -5,7 +5,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group">
-                    {%- set attrs = ['id', 'lastLogin'] %}
+                    {%- set attrs = ['id', 'roles', 'createdAt', 'lastLogin'] %}
                     {%- for attr in attrs %}
                     {{ knp_pagination_sortable(entities, attr|capitalize, 'u.'~attr, {sort : entities.isSorted('u.'~attr)}) }}
                     {%- endfor %}
@@ -22,12 +22,31 @@
     </div>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <table class="table">
+            <table class="table table-bordered table-striped table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Roles</th>
+                        <th>Inscription</th>
+                        <th>Last Login</th>
+                    </tr>
+                </thead>
                 <tbody>
                     {%- for entity in entities %}
                     <tr>
                         <td>
                             <a href="{{ path('admin_user', {'id': entity.id}) }}">{{ entity.username }}</a>
+                        </td>
+                        <td>
+                            {%- for role in entity.roles %}
+                            {{ role }}&nbsp;
+                            {%- endfor %}
+                        </td>
+                        <td>
+                            {{ entity.createdAt|date('d-m-y H:i:s') }}
+                        </td>
+                        <td>
+                            {{ entity.lastLogin|date('d-m-y H:i:s') }}
                         </td>
                     </tr>
                     

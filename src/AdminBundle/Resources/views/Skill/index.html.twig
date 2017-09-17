@@ -1,0 +1,35 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{%- block body %}
+
+<div class="row">
+    <div class="col-md-12">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+        {{ form_end(form) }}
+    </div>
+</div>
+    
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tbody>
+                {%- for entity in entities %}
+                <tr>
+                    <td>{{ entity.id }}</td>
+                    <td>
+                        <a href="{{ path('admin_skill_edit', {'id':entity.id }) }}">{{ entity.name }}</a>
+                    </td>
+                    <td>{{ entity.image }}</td>
+                    <td>
+                        <img src="{{ asset('skill/'~entity.image) }}" alt="{{ asset('skill') }}" />
+                    </td>
+                </tr>
+                {%- endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{%- endblock %}

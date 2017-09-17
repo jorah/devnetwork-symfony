@@ -25,6 +25,12 @@ class CommentController extends Controller
      *  "type" = "code|post"
      * })
      * @Method("GET")
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string $type
+     * @param int $page
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request, $type, $page)
     {
@@ -41,33 +47,50 @@ class CommentController extends Controller
 
         return $this->render('AdminBundle:Comment:index.html.twig', [
                     'entities' => $comMng->findComments($page, $criteria['data']),
-                    'type' => $type
+                    'type' => $type,
+                    'delete_form' => $this->createDeleteForm()->createView(),
         ]);
     }
 
     /**
      * Delete a comment
      * 
-     * @Route("/comment/{type}/delete/{id}", name="admin_comment_delete", requirements={
+     * @Route("/comment/{id}/delete/{type}", name="admin_comment_delete", requirements={
      *      "id" = "\d+",
      *      "type" = "code|post",
      * })
      * @Method("DELETE")
      * 
-     * @param string $type
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $id
+     * @param string $type
      * 
-     * @return Redirect
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction($type, $id)
+    public function deleteAction(Request $request, $id, $type)
     {
-        $status = $this->get('comment.manager')->set($type)->deleteComment($id);
-        if(!$status){
-            return $this->createNotFoundException('Commentaire #'.$id.' ('.$type.') non trouvé');
+
+        $form = $this->createDeleteForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $status = $this->get('comment.manager')->set($type)->deleteComment($id);
+            if (!$status) {
+                return $this->createNotFoundException('Commentaire #' . $id . ' (' . $type . ') non trouvé');
+            }
+            $this->addFlash('danger', 'Commentaire ' . $type . ' #' . $id . ' supprimé.');
         }
-        $this->addFlash('danger', 'Commentaire '.$type.' #' . $id . ' supprimé.');
 
         return $this->redirectToRoute('admin_comments', ['type' => $type]);
+    }
+
+    /**
+     * Creates a form to delete a comment
+     *
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createDeleteForm()
+    {
+        return $this->createFormBuilder()->setMethod('DELETE')->getForm();
     }
 
 }
