@@ -3,7 +3,7 @@ AppBundle\Entity\User:
     table: fos_user
     repositoryClass: AppBundle\Repository\UserRepository
     lifecycleCallbacks:
-        prePersist: [ insertDate ]
+        prePersist: [ onInsertDate, onInsertStatus ]
     
     
     id: { id: { type: integer, id: true, generator: { strategy: AUTO }}}
@@ -16,7 +16,7 @@ AppBundle\Entity\User:
         createdAt:  { type: datetime }
         updatedAt:  { type: datetime,                  nullable: true }
         img:        { type: string,     length: 10,    nullable: true }
-        status:     { type: boolean,                   nullable: true }
+        status:     { type: boolean     }
     
     oneToOne:
         theme:

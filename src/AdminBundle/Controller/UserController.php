@@ -24,14 +24,24 @@ class UserController extends Controller
      * })
      * @Method("GET")
      * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $page
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction($page)
+    public function indexAction(Request $request, $page)
     {
+        $sanitize = $this->get('sanitize_request');
+        $criteria = $sanitize->sanitize($request->query->all());
+        if ($criteria['error']) {
+            foreach ($criteria['error'] as $err) {
+                $this->addFlash('danger', $err);
+                $criteria['data'] = $sanitize->getDefault();
+            }
+        }
+        
         return $this->render('AdminBundle:User:index.html.twig', [
-                    'entities' => $this->get('user.manager')->findUsers($page, true),
+                    'entities' => $this->get('user.manager')->findUsers($page, $criteria['data'], true),
         ]);
     }
 

@@ -1,29 +1,65 @@
-{% if is_granted('ROLE_ADMIN') %}
-    <a class="navbar-brand" href="{{ path('admin_homepage') }}">Admin</a> |
-{% endif %}
-<a href="{{ path('homepage') }}">homepage</a> | 
-<a href="{{ path('code_index') }}">Code</a> | 
-<a href="{{ path('commentcode_index') }}">CommentCode</a> | 
-<a href="{{ path('commentpost_index') }}">CommentPost</a> | 
-<a href="{{ path('language_index') }}">Language</a> | 
-<a href="{{ path('post_index') }}">Post</a> | 
-<a href="{{ path('skill_index') }}">Skill</a> | 
-<a href="{{ path('tag_index') }}">Tag</a> | 
-<a href="{{ path('theme_index') }}">Theme</a> | 
-<a href="{{ path('user_index') }}">User</a> | 
+{%- block menu %}
 
+<nav class="navbar navbar-inverse " role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{ path('admin_homepage') }}">Admin</a>
+        <a class="navbar-brand" href="{{ path('homepage') }}">Site</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
 
+        <ul class="nav navbar-nav">
+            <li><a class="disabled">|</a></li>
+            <li><a href="{{ path('homepage') }}">Homepage</a></li>
+            <li><a href="{{ path('code_index') }}">Code</a></li>
+            <li><a href="{{ path('post_index') }}">Post</a></li>
+            <li><a href="{{ path('user_index') }}">User</a></li>
+                {#<li><a href="{{ path('comments', {'type': 'code'}) }}">Comments Code</a></li>
+                <li><a href="{{ path('comments', {'type': 'post'}) }}">Comments Post</a></li>
+                <li><a href="{{ path('tags') }}">Tags</a></li>
+                <li><a href="{{ path('languages') }}">Languages</a></li>
+                <li><a href="{{ path('skills') }}">Skills</a></li>
+                <li><a href="{{ path('themes') }}">Themes</a></li>#}
 
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            
+                {%- if app.user.username is defined %}
+                <li><a href="{{ path('user_show', {'id': app.user.id }) }}" style="color:tomato">{{ app.user.username }}</a> </li>
+                {%- for role in app.user.roles %}
+                <li><a href="#" style="color:blue">{{ role }}</a></li>
+                {%- endfor %}
+                <li><a href="{{ path('fos_user_security_logout') }}">logout</a></li>
+                {%- else %}
+                <li><a href="{{ path('fos_user_security_login') }}">login</a></li>
+                <li><a href="{{ path('fos_user_registration_register') }}">register</a></li>
+                {%- endif %}
+            
 
+        </ul>
+    </div>
+</nav>
 
-||
-{%- if app.user.username is defined %}
-<span style="color:tomato">{{ app.user.username }}</span> 
-{%- for role in app.user.roles %}
-<span style="color:blue">{{ role }}</span>
-{%- endfor %}
- 
-<a href="{{ path('fos_user_security_logout') }}">logout</a>
-{%- else %}
-<a href="{{ path('fos_user_security_login') }}">login</a>
-{%- endif %}
+{# usage: $this->get('session')->getFlashBag()->add('danger', 'parameters not valid'); #}
+{#  flashMessage #}
+
+<div id="flashMessages" class="container-fluid">
+
+    {%- for type, flashMessages in app.session.flashbag.all() -%}
+    {%- for flashMessage in flashMessages -%}
+    <div class="row">
+        <div class="col-md-8 alert col-md-offset-2 alert-{{ type }} alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ flashMessage|raw }}
+        </div>
+    </div> 
+    {%- endfor -%}
+    {%- endfor -%}
+</div> 
+
+{%- endblock %}

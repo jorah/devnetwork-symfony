@@ -1,21 +1,64 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
-    <h1>User edit</h1>
+    <div class="row">
+        <div class="col-md-5 col-md-offset-1">
+            <h1>User edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+            
+            {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+            <input type="submit" value="Edit" />
+            {{ form_end(edit_form) }}
 
+
+            {{ dump(edit_form.skills) }}
+            {% for choice in edit_form.skills.vars.choices %}          
+                {{ dump(choice.data.id) }} 
+                {{ dump(choice.data.name) }}
+            {% endfor %}
+
+
+        </div>
+    </div>
     <ul>
         <li>
             <a href="{{ path('user_index') }}">Back to the list</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}
+
+
+{%- block javascripts %}
+
+
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var id = 'appbundle_user_skills';
+        var name = $('#'+id).prop('name');
+        var data = $($('#'+id >).val());
+        console.log(data)
+        
+        getData(id);
+        
+        function getData(id){
+            var name = $('#'+id).prop('name');
+{#            console.log(name)#}
+            
+        }
+        
+    });
+// 1) get all choice 
+// 2) extract selected
+
+</script>    
+{%- endblock %}

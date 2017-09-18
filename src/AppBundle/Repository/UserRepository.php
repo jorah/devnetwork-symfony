@@ -27,8 +27,9 @@ class UserRepository extends RepositoryModel
         $qb->leftJoin('u.skills', 's')->addSelect('s');
 
         if (false === $isAdmin) {
-            $qb->andWhere($qb->expr()->isNull('u.status'));
+            $qb->andWhere($qb->expr()->eq('u.status', 0));
         }
+
         return $qb;
     }
 

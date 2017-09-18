@@ -6,6 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+//use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+//use AppBundle\Form\SkillType;
+use AppBundle\Entity\Skill;
 
 class UserType extends AbstractType
 {
@@ -22,12 +25,17 @@ class UserType extends AbstractType
                 ->add('bio')
                 ->add('img')
                 ->add('status')
-                ->add('skills')
-                ->add('theme',EntityType::class, [
+                ->add('skills', EntityType::class, array(
+                    'class' => Skill::class,
+                    'choice_label' => 'name',
+                    'multiple' => true,
+                    'required' => false,
+                ))
+                ->add('theme', EntityType::class, [
                     'class' => 'AppBundle:Theme',
-                    'choice_label' => 'name'
+                    'choice_label' => 'name',
                 ])
-                
+
         ;
     }
 

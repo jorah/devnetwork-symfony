@@ -25,9 +25,9 @@ class UserManager extends ManagerModel
         $this->repository = $this->om->getRepository(User::class);
     }
 
-    public function findUsers($page, $isAdmin = false)
+    public function findUsers($page, array $criteria, $isAdmin = false)
     {
-        $criteria = [];
+        
         $qb = $this->repository->findUsers($criteria, $isAdmin);
         return $this->paginator->paginate($qb, $page, 20, ['distinct' => true]);
     }

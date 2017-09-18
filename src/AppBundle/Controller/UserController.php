@@ -17,50 +17,63 @@ class UserController extends Controller
     /**
      * Lists all user entities.
      *
-     * @Route("/", name="user_index")
+     * @Route("/{page}", name="user_index", defaults={"page" = 1}, requirements={
+     *  "page" = "\d+",
+     * })
      * @Method("GET")
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param int $page
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(Request $request, $page)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
-        return $this->render('AppBundle:User:index.html.twig', array(
-            'users' => $users,
-        ));
-    }
-
-    /**
-     * Creates a new user entity.
-     *
-     * @Route("/new", name="user_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $user = new User();
-        $form = $this->createForm('AppBundle\Form\UserType', $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+        
+        $sanitize = $this->get('sanitize_request');
+        $criteria = $sanitize->sanitize($request->query->all());
+        if ($criteria['error']) {
+            foreach ($criteria['error'] as $err) {
+                $this->addFlash('danger', $err);
+                $criteria['data'] = $sanitize->getDefault();
+            }
         }
 
-        return $this->render('AppBundle:User:new.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView(),
+        return $this->render('AppBundle:User:index.html.twig', array(
+            'users' => $this->get('user.manager')->findUsers($page, $criteria['data'], $this->isGranted('ROLE_ADMIN')),
         ));
     }
+
+//    /**
+//     * Creates a new user entity.
+//     *
+//     * @Route("/new", name="user_new")
+//     * @Method({"GET", "POST"})
+//     */
+//    public function newAction(Request $request)
+//    {
+//        $user = new User();
+//        $form = $this->createForm('AppBundle\Form\UserType', $user);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($user);
+//            $em->flush();
+//
+//            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+//        }
+//
+//        return $this->render('AppBundle:User:new.html.twig', array(
+//            'user' => $user,
+//            'form' => $form->createView(),
+//        ));
+//    }
 
     /**
      * Finds and displays a user entity.
      *
-     * @Route("/{id}", name="user_show")
+     * @Route("/{id}/show", name="user_show")
      * @Method("GET")
      */
     public function showAction(User $user)
@@ -81,6 +94,8 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
+//        dump($request->request->all());
+//        exit;
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('AppBundle\Form\UserType', $user);
         $editForm->handleRequest($request);

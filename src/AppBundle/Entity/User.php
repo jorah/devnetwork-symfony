@@ -9,6 +9,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  */
 class User extends BaseUser
 {
+
     /**
      * @var int
      */
@@ -20,7 +21,6 @@ class User extends BaseUser
         // your own logic
     }
 
-   
     /**
      * @var string
      */
@@ -75,7 +75,6 @@ class User extends BaseUser
      * @var \Doctrine\Common\Collections\Collection
      */
     private $favPost;
-
 
     /**
      * Set firstname
@@ -370,11 +369,11 @@ class User extends BaseUser
     {
         return $this->favPost;
     }
+
     /**
      * @var \AppBundle\Entity\Theme
      */
     private $theme;
-
 
     /**
      * Set theme
@@ -399,18 +398,24 @@ class User extends BaseUser
     {
         return $this->theme;
     }
-    
+
     ############################
-    
+
     /**
      * prePersist method
      * 
      * @return $this
      */
-    public function insertDate()
+    public function onInsertDate()
     {
         $this->createdAt = new \DateTime();
-        
+
         return $this;
     }
+
+    public function onInsertStatus()
+    {
+        $this->status = 0;
+    }
+
 }

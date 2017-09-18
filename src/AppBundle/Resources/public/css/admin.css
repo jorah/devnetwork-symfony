@@ -1,0 +1,31 @@
+/*
+    KnpPaginator
+*/
+ul.pagination{
+    margin: 0px 0px!important;
+}
+
+/*TestUrl*/
+.tooltip-testURL {
+    max-width: 7000px;
+    text-align: left;
+}
+.tooltip-testURL .tttu{
+    display: inline-block;
+    width: 55px;
+    text-transform: capitalize;
+}
+
+.display_admin{
+    display: inline-block;
+    /*width: 210px;*/
+    margin: 4px;
+    padding: 6px;
+    border: 1px solid grey;
+}
+.display_admin form{
+    display: inline-block;
+}
+
+
+

@@ -1,0 +1,29 @@
+{% if is_granted('ROLE_ADMIN') %}
+    <a class="navbar-brand" href="{{ path('admin_homepage') }}">Admin</a> |
+{% endif %}
+<a href="{{ path('homepage') }}">homepage</a> | 
+<a href="{{ path('code_index') }}">Code</a> | 
+<a href="{{ path('commentcode_index') }}">CommentCode</a> | 
+<a href="{{ path('commentpost_index') }}">CommentPost</a> | 
+<a href="{{ path('language_index') }}">Language</a> | 
+<a href="{{ path('post_index') }}">Post</a> | 
+<a href="{{ path('skill_index') }}">Skill</a> | 
+<a href="{{ path('tag_index') }}">Tag</a> | 
+<a href="{{ path('theme_index') }}">Theme</a> | 
+<a href="{{ path('user_index') }}">User</a> | 
+
+
+
+
+
+||
+{%- if app.user.username is defined %}
+<a href="#" style="color:tomato">{{ app.user.username }}</a> 
+{%- for role in app.user.roles %}
+<a href="#" style="color:blue">{{ role }}</a>
+{%- endfor %}
+ 
+<a href="{{ path('fos_user_security_logout') }}">logout</a>
+{%- else %}
+<a href="{{ path('fos_user_security_login') }}">login</a>
+{%- endif %}
