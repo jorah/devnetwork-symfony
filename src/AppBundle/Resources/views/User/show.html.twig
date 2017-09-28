@@ -49,7 +49,7 @@
                     </tr>
                     <tr>
                         <th>Theme</th>
-                        <td>{{ user.theme }}</td>
+                        <td>{{ user.theme.name }}</td>
                     </tr>
                     <tr>
                         <th>Img</th>
@@ -58,6 +58,16 @@
                     <tr>
                         <th>Status</th>
                         <td>{% if user.status %}Yes{% else %}No{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Skills</th>
+                        <td>
+                            {%- for skill in user.skills %}
+                            <ul>
+                                <li>{{ skill.name }}</li>
+                            </ul>
+                            {%- endfor %}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -68,7 +78,7 @@
         <li>
             <a href="{{ path('user_index') }}">Back to the list</a>
         </li>
-        
+
         {%- if app.user.id is defined %} {# user authenticated #}
         {%- if app.user.id == user.id %} {# user is code owner #}
         <li>

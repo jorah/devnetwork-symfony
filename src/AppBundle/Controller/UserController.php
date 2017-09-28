@@ -76,8 +76,9 @@ class UserController extends Controller
      * @Route("/{id}/show", name="user_show")
      * @Method("GET")
      */
-    public function showAction(User $user)
+    public function showAction($id)
     {
+        $user = $this->get('user.manager')->showUser($id);
         $deleteForm = $this->createDeleteForm($user);
 
         return $this->render('AppBundle:User:show.html.twig', array(
@@ -108,6 +109,7 @@ class UserController extends Controller
 
         return $this->render('AppBundle:User:edit.html.twig', array(
             'user' => $user,
+            'skills' => $this->get('skill.manager')->findSkills(),
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

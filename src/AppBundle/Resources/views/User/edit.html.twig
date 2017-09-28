@@ -4,9 +4,36 @@
     <div class="row">
         <div class="col-md-5 col-md-offset-1">
             <h1>User edit</h1>
+            <div id="aaa"></div>
 
-            
             {{ form_start(edit_form) }}
+            {{ form_row(edit_form.firstname) }}
+            {{ form_row(edit_form.lastname) }}
+            {{ form_row(edit_form.job) }}
+            {{ form_row(edit_form.bio) }}
+            {{ form_row(edit_form.img) }}
+            <hr />
+            <div id="form_skill">
+                {{ form_row(edit_form.skills) }}
+            </div>
+            <div class="row">
+                <div id="form_skill_display" class="col-md-6">
+
+                </div>
+                <div class="col-md-6" id="form_skil_list">
+                    <ul>
+                        {%- for skill in skills %}
+                        <li>
+                            {{ skill.name }}
+                            <button data-id="{{skill.id}}" >+</button>
+                        </li>
+                        {%- endfor %}
+                    </ul>
+                </div>
+            </div>
+
+
+            <hr />
             {{ form_widget(edit_form) }}
             <input type="submit" value="Edit" />
             {{ form_end(edit_form) }}
@@ -31,6 +58,7 @@
             {{ form_end(delete_form) }}
         </li>
     </ul>
+
 {% endblock %}
 
 
@@ -44,18 +72,79 @@
     $(function () {
 
         var id = 'appbundle_user_skills';
-        var name = $('#'+id).prop('name');
-        var data = $($('#'+id >).val());
-        console.log(data)
-        
-        getData(id);
-        
-        function getData(id){
-            var name = $('#'+id).prop('name');
-{#            console.log(name)#}
-            
+        var name = $('#' + id).prop('name');
+        var data = $('#' + id + ' > option');
+
+        loadSelectEntry($('#appbundle_user_skills > option'), $('#form_skill_display'));
+
+        function loadSelectEntry(selector_input, selector_display) {
+            var list = $('<ul>');
+            selector_input.each(function (i, el) {
+                var selected = $(el).attr('selected');
+                if (typeof selected !== typeof undefined && selected !== false) {
+                    list.append('<li>' + $(el).text() + '<a href="#" data-id="' + $(el).val() + '">Del</a></li>')
+                }
+            })
+            console.log(list)
+            list.appendTo(selector_display);
         }
-        
+
+        $('#form_skill_display').on('click', 'li > a', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            console.log(id)
+            $(this).parent().remove();
+            $('#appbundle_user_skills > option').each(function (i, el) {
+                if ($(el).val() == id) {
+                    //$(el).prop("selected", false);
+                    $(el).removeAttr("selected");
+                }
+            })
+        })
+
+        $('#form_skil_list').on('click', 'button', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            
+            var exist = false;
+            $('#appbundle_user_skills > option').each(function (i, el) {
+                if ($(el).val() == id) {
+                    var selected = $(el).attr('selected');
+                    if (typeof selected === typeof undefined || selected === false) {
+                        //$(el).prop("selected", true);
+                        $(el).attr('selected', true)
+                        console.log(id)
+                        var list = $('<ul>');
+                        list.append('<li>' + $(el).text() + '<a href="#" data-id="' + $(el).val() + '">Del</a></li>')
+                        list.appendTo($('#form_skill_display'));
+                    }
+                    
+                }
+            })
+        })
+
+        getSelectData(data);
+
+        function getSelectData(elem) {
+            var val = [];
+            var $select = $('<select>');
+            elem.each(function (i, el) {
+                var selected = $(el).attr('selected');
+                val.push({
+                    id: $(el).val(),
+                    value: $(el).text(),
+                    selected: (typeof selected !== typeof undefined && selected !== false) ? true : false
+                })
+                $select.append('<option value="' + $(el).val() + '">' + $(el).text() + '</option>');
+
+            })
+
+            console.log(val)
+            console.log($select)
+            $('#aaa').append($select)
+
+        }
+
     });
 // 1) get all choice 
 // 2) extract selected

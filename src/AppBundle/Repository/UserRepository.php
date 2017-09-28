@@ -45,6 +45,7 @@ class UserRepository extends RepositoryModel
         $qb = $this->createQueryBuilder('u');
         $qb
                 ->leftJoin('u.skills', 's')->addSelect('s')
+                ->leftJoin('u.theme', 't')->addSelect('t')
                 ->where($qb->expr()->eq('u.id', ':id'))
                 ->setParameter('id', $id)
         ;
