@@ -50,7 +50,7 @@ class PostController extends Controller
     public function newAction(Request $request)
     {
         $post = new Post();
-
+        
         $form = $this->createForm('AppBundle\Form\PostType', $post);
         $form->handleRequest($request);
 
@@ -61,9 +61,10 @@ class PostController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
                 $em->flush();
-                return $this->redirectToRoute('post_show', array('id' => $post->getId()));
+                return $this->redirectToRoute('post_edit', array('id' => $post->getId()));
             }
         }
+        
 
         return $this->render('AppBundle:Post:new.html.twig', array(
                     'post' => $post,
@@ -104,9 +105,10 @@ class PostController extends Controller
     public function editAction(Request $request, Post $post)
     {
         // check if user is post owner
-        if ($this->get('security.token_storage')->getToken()->getUser()->getId() != $code->getUser()->getId()) {
+        if ($this->get('security.token_storage')->getToken()->getUser()->getId() != $post->getUser()->getId()) {
             return $this->redirectToRoute('fos_user_security_login');
         }
+        
         $deleteForm = $this->createDeleteForm($post);
         $editForm = $this->createForm('AppBundle\Form\PostType', $post);
         $editForm->handleRequest($request);

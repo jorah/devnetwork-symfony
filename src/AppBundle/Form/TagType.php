@@ -25,7 +25,8 @@ class TagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Tag'
+            'data_class' => 'AppBundle\Entity\Tag',
+            'validation_groups' => array('single'),
         ));
     }
 

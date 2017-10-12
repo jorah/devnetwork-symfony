@@ -1,0 +1,6 @@
+AppBundle\Entity\User:
+    properties:
+        image:
+            - Image:
+                minWidth: 200
+                minHeight: 200

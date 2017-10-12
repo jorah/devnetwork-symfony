@@ -14,6 +14,10 @@
                 <td>{{ post.title }}</td>
             </tr>
             <tr>
+                <th>User</th>
+                <td>{{ post.user.username }}</td>
+            </tr>
+            <tr>
                 <th>Content</th>
                 <td>{{ post.content }}</td>
             </tr>
@@ -53,7 +57,7 @@
         <code>display form "new CommentPost" if user is authenticated</code>
         <br />
         {%- if is_granted("ROLE_USER") %}
-        {{ render(controller('AppBundle:CommentPost:new')) }}
+{#        {{ render(controller('AppBundle:CommentPost:new')) }}#}
         {%- else %}
         You need to be <a href="{{ path('fos_user_security_login') }}">logged</a>  to post a comment
         {%- endif %}

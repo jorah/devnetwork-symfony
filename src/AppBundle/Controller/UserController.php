@@ -95,20 +95,25 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
-//        dump($request->request->all());
-//        exit;
+        $usrMng = $this->get('user.manager');
+        $current_image = $user->getImg();
+        $fileUploader = $this->get('file_uploader')->set('user');
+        $user->setImg($fileUploader->check($user->getImg()));
+        
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('AppBundle\Form\UserType', $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $user->setImg($fileUploader->upload($user->getImg()));
+            $usrMng->flush();
 
             return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
         }
 
         return $this->render('AppBundle:User:edit.html.twig', array(
             'user' => $user,
+            'image' => $current_image,
             'skills' => $this->get('skill.manager')->findSkills(),
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

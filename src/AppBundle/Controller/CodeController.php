@@ -110,6 +110,13 @@ class CodeController extends Controller
         if ($this->getUser()->getId() != $code->getUser()->getId()) {
             return $this->redirectToRoute('fos_user_security_login');
         }
+        $tagsCollection = $code->getTags();
+        $tags = [];
+        foreach ($tagsCollection as $tag){
+            echo $tag->getName();
+        }
+//        dump($tags);
+//        exit;
         $deleteForm = $this->createDeleteForm($code);
         $editForm = $this->createForm('AppBundle\Form\CodeType', $code);
         $editForm->handleRequest($request);

@@ -3,8 +3,8 @@ AppBundle\Entity\Skill:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: [name]
             message: This skill is already in the database;
+    
     properties:
-        
         image:
             - Image:
                 minWidth: 200

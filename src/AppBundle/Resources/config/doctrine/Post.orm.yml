@@ -28,7 +28,7 @@ AppBundle\Entity\Post:
         tags:
             targetEntity: AppBundle\Entity\Tag
             joinTable:
-                name: posts_codes
+                name: tags_posts
                 joinColumns:
                     post_id:
                         referencedColumnName: id

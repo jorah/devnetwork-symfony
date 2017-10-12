@@ -88,6 +88,9 @@ class FileUploader
         if($this->mode == 'skill'){
             $cmd = sprintf('convert "%s" -resize 200x200^ -gravity Center -crop 200x200+0+0 +repage "%s"', $path, $path);
             exec($cmd);
+        } elseif($this->mode == 'user'){
+            $cmd = sprintf('convert "%s" -resize 200x200^ -gravity Center -crop 200x200+0+0 +repage "%s"', $path, $path);
+            exec($cmd);
         }
     }
 

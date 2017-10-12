@@ -34,7 +34,7 @@ class TagController extends Controller
         $tagMng = $this->get('tag.manager');
         $tag = new Tag();
 
-        $form = $this->createForm(TagType::class, $tag);
+        $form = $this->createForm(TagType::class, $tag, ['validation_groups' => array('single')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
